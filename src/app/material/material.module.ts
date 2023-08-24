@@ -11,6 +11,12 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatCardModule } from "@angular/material/card";
 import { MatSelectModule } from "@angular/material/select";
 import { MatTreeModule } from "@angular/material/tree";
+import { MatTableModule } from "@angular/material/table";
+import { MatTabsModule } from "@angular/material/tabs";
+import {MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule} from '@angular/material/sort';
+import { MatDialogModule} from '@angular/material/dialog';
+import { MatCheckboxModule} from '@angular/material/checkbox';
 
 
 
@@ -28,7 +34,12 @@ import { MatTreeModule } from "@angular/material/tree";
     MatDatepickerModule,
     MatCardModule,
     MatSelectModule,
-    MatTreeModule
+    MatTreeModule,
+    MatTableModule,
+    MatTabsModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatDialogModule
   ],
   exports: [
     MatSidenavModule,
@@ -40,7 +51,13 @@ import { MatTreeModule } from "@angular/material/tree";
     MatDatepickerModule,
     MatCardModule,
     MatSelectModule,
-    MatTreeModule
+    MatTreeModule,
+    MatTableModule,
+    MatTabsModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatDialogModule,
+    MatCheckboxModule
   ]
 })
 export class MaterialModule { }

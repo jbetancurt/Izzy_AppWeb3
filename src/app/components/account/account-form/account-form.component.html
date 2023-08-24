@@ -1,0 +1,299 @@
+<form [formGroup]="formImportAccount" (ngSubmit)="EditAccount()">
+    <h1 mat-dialog-title>Account # {{ inAcctID }}        
+        <span class="menu-spacer"></span>
+        <button mat-stroked-button class="btn-rigth" color="accent" mat-dialog-close>
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </h1>
+    <div mat-dialog-content>
+        <div class="starter-template">
+            <div class="row">
+                <div class="col-md-12 mt-5">
+                    <h1>{{ titulo }} </h1>
+                </div>
+            </div>    
+        </div>
+        <input type="hidden" formControlName="userID" />
+        <input type="hidden" formControlName="acctID" />
+        <input type="hidden" formControlName="masterCode" />
+        <input type="hidden" formControlName="postDate" />
+        <input type="hidden" formControlName="serviceCode" />
+        
+    
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">Client/Project</span>
+                        <select #SelectClient formControlName="clientCode" class="form-control" (change)="LoadProjects(SelectClient.value)" >
+                            <option value=""></option>
+                            <option  *ngFor="let item of allClients" [value]="item.clientCode">{{ item.clientCode }} - {{ item.name| uppercase }}</option>
+                        </select>
+                        <select #SelectProject formControlName="projectCode"  class="form-control"  >
+                            <option  *ngFor="let item of ListProjects" [value]="item.projectCode">{{ item.projectCode }} - {{ item.name| uppercase }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">Client Reference #:</span>
+                        <input type="text" formControlName="clientRef1" aria-label="Client Reference #" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">Name:</span>
+                        <input type="text" formControlName="firstName" aria-label="First name" class="form-control">
+                        <input type="text" formControlName="middleName" aria-label="Middle name" class="form-control">
+                        <input type="text" formControlName="lastName" aria-label="Last name" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">Address Line 1:</span>
+                        <input type="text" formControlName="address1" aria-label="Client Reference #" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">Address Line 2:</span>
+                        <input type="text" formControlName="address2" aria-label="Client Reference #" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">City  State Zip Code:</span>
+                        <input type="text" formControlName="city" aria-label="city" class="form-control">
+                        <input type="text" formControlName="state" aria-label="state" class="form-control">
+                        <input type="text" formControlName="zip" aria-label="zip" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">Home / Alt Phone:</span>
+                        <input type="text" formControlName="phone1" aria-label="phone Home" class="form-control">
+                        <input type="text" formControlName="phone2" aria-label="phone Alt" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">Date Of Birth:</span>
+                        <input type="datetime-local" formControlName="dateOfBirth" 
+                            aria-label="dateOfBirth" class="form-control">
+                        <span class="input-group-text">SSN:</span>
+                        <input type="text" formControlName="socialSec" aria-label="" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">Identification #:</span>
+                        <input type="text" formControlName="idNumber" aria-label="idNumber" class="form-control">
+                        <span class="input-group-text">Gender:</span>
+                        <select #SelectClient formControlName="gender" class="form-control" >
+                            <option value="">SELECT A OPTION</option>
+                            <option value="F">FEMALE</option>
+                            <option value="M">MALE</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">Medical Record #:</span>
+                        <input type="text" formControlName="idNumber" aria-label="Client Reference #" class="form-control">
+                    </div>
+                </div>
+    
+    
+    
+    
+                <div class="row">
+                    <div class="input-group">                  
+                        <button  type="button" class="btn btn-primary float-left" (click)="CopyToRP()">Copy To RP</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">Resp Party Name:</span>
+                        <input type="text" formControlName="rpFirstName"  aria-label="First name" class="form-control">
+                        <input type="text" formControlName="rpMiddleName" aria-label="Middle name" class="form-control">
+                        <input type="text" formControlName="rpLastName" aria-label="Last name" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">Address Line 1:</span>
+                        <input type="text" formControlName="rpAddress1" aria-label="Client Reference #" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">Address Line 2:</span>
+                        <input type="text" formControlName="rpAddress2" aria-label="Client Reference #" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">City  State Zip Code:</span>
+                        <input type="text" formControlName="rpCity" aria-label="city" class="form-control">
+                        <input type="text" formControlName="rpState" aria-label="state" class="form-control">
+                        <input type="text" formControlName="rpZip" aria-label="zip" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">Rep Phone:</span>
+                        <input type="text" formControlName="rpPhone1" aria-label="phone Home" class="form-control">
+                        <span class="input-group-text">Relationship:</span>
+                        <input type="text" formControlName="relationship" aria-label="phone Alt" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">Rp Date Of Birth:</span>
+                        <input type="datetime-local" formControlName="rpDateOfBirth" 
+                            aria-label="rpDateOfBirth" class="form-control">
+                        <span class="input-group-text">RP SSN:</span>
+                        <input type="text" formControlName="rpSocialSec" aria-label="" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">Country:</span>
+                        <input type="text" formControlName="rpCountry" aria-label="" class="form-control">
+                        <span class="input-group-text">Use RP on Letter:</span>
+                        <input type="checkbox" formControlName="rpUseOnLtr" aria-label="" class="form-control">
+                    </div>
+                </div>
+    
+    
+    
+    
+    
+    
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">Employer:</span>
+                        <input type="text" formControlName="employerName" aria-label="Employer name" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">Address Line 1:</span>
+                        <input type="text" formControlName="empAddress1" aria-label="Employer Address #" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">Address Line 2:</span>
+                        <input type="text" formControlName="empAddress2" aria-label="Employer Address #" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">City  State Zip Code:</span>
+                        <input type="text" formControlName="empCity" aria-label="city" class="form-control">
+                        <input type="text" formControlName="empState" aria-label="state" class="form-control">
+                        <input type="text" formControlName="empZip" aria-label="zip" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">Work Phone:</span>
+                        <input type="text" formControlName="empPhone" aria-label="phone Home" class="form-control">
+                    </div>
+                </div>
+                <br>
+                <br>
+                <br>    
+    
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">From Date:</span>
+                        <input type="datetime-local" formControlName="fromDate" 
+                            aria-label="rpDateOfBirth" class="form-control">
+                        <span class="input-group-text">Total Charges:</span>
+                        <input type="text" formControlName="totalCharges" aria-label="" class="form-control">
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">To Date:</span>
+                        <input type="datetime-local" formControlName="toDate" 
+                            aria-label="rpDateOfBirth" 
+                            class="form-control">
+                        <span class="input-group-text">Prior Payments:</span>
+                        <input type="text" formControlName="priorPayments" aria-label="" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">Financial Class:</span>
+                        <input type="text" formControlName="finClassCode" aria-label="" class="form-control">
+                        <span class="input-group-text">Prior Adjustments:</span>
+                        <input type="text" formControlName="priorAdjustments" aria-label="" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">Service Code:</span>
+                        <input type="text" formControlName="serviceCode" aria-label="" class="form-control">
+                        <span class="input-group-text">Assigned Amount:</span>
+                        <input type="text" formControlName="assignedAmount" aria-label="" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <label class="form-control"></label>
+                        <label class="form-control"></label>
+                        <span class="input-group-text">Payments:</span>
+                        <input type="text" formControlName="payments" aria-label="" class="form-control">
+                    </div>
+                </div>
+    
+                
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">bill Type:</span>
+                        <input type="text" formControlName="lastBillType" aria-label="" class="form-control">
+                        <span class="input-group-text">Adjustments:</span>
+                        <input type="text" formControlName="adjustments" aria-label="" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">bill Date:</span>
+                        <input type="text" formControlName="lastBillDate" aria-label="" class="form-control">
+                        <span class="input-group-text">Balance Due:</span>
+                        <input type="text" formControlName="balanceDue" aria-label="" class="form-control">
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="input-group">
+                        <span class="input-group-text">Assigned Date:</span>
+                        
+                        <input type="datetime-local" formControlName="placementDate" aria-label="" class="form-control">
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <hr>
+        
+    </div>
+    <div mat-dialog-actions>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="input-group mb-3">
+                    <button type="submit" mat-stroked-button color="primary">Save</button>
+                </div>            
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,135 @@
+
+<div class="row">
+    <div class="col-md-3">
+        <strong>Clients: </strong>
+        <select class="form-control" #SelectClient (change)="ChageClient(SelectClient.value, SelectOptions.value, textValue.value)">
+            <option value="0">ALL CLIENT</option>
+            <option *ngFor="let item of allClients" [value]="item.clientCode">{{ item.clientCode }} - {{ item.name| uppercase }}</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <strong>Search by: </strong>
+        <select class="form-control" #SelectOptions (change)="ChageOptions(SelectClient.value, SelectOptions.value, textValue.value)">
+            <option value="">Select a Option</option>
+            <option *ngFor="let item of listOption" [value]="item.value">{{ item.label | uppercase }}</option>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <strong #ListClient>Write a value: </strong>
+        <input class="form-control" type="text" #textValue [(ngModel)]="searchValue" (keyup)="ChageValues(SelectClient.value, SelectOptions.value, textValue.value)"/>
+    </div>   
+    <div class="col-md-2">
+        <br/>
+        <button [disabled]="disabledButton" class="btn btn-outline-primary" (click)="LoadAccounts(SelectOptions.value, textValue.value, SelectClient.value)">
+            Search
+        </button>
+        
+
+    </div> 
+</div>
+<hr>
+<div class="row">
+    <div class="col-md-12 mt-5">
+        <form>
+            <strong>Type some text to filter the result:</strong> 
+            <input 
+                class="form-control" type="text" name="searchTerm" 
+                [(ngModel)]="searchTerm" (input)="search($any($event))" />
+        </form>
+
+
+        <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="Client_code" >
+                <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Client Code </strong></th>
+                <td mat-cell *matCellDef="let element"> {{element.clientCode}}-{{element.projectCode}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Account" >
+                <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Account # </strong></th>
+                <td mat-cell *matCellDef="let element"> 
+                    {{element.acctID}}
+                    <mat-icon *ngIf="element.acctID" (click)="copyToClipboard(element.acctID)" matTooltip={{element.acctID }}>link</mat-icon>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="SSN" >
+                <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> SSN </strong></th>
+                <td mat-cell *matCellDef="let element"> 
+                    {{element.socialSecMask }}
+                    <mat-icon *ngIf="element.socialSec" (click)="copyToClipboard(element.socialSec)" matTooltip={{element.socialSec }}>link</mat-icon>    
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="DOB" >
+                <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> DOB </strong></th>
+                <td mat-cell *matCellDef="let element"> 
+                    {{element.dateOfBirth | date :'MM/dd/YYYY' }}
+                    <mat-icon *ngIf="element.dateOfBirth" (click)="copyToClipboard(datepipe.transform(element.dateOfBirth, 'MM/dd/yyyy'))" matTooltip={{el.dateOfBirth }}>link</mat-icon>    
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="Name" >
+                <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Name </strong></th>
+                <td mat-cell *matCellDef="let element"> 
+                    <label *ngIf="element.firstName">
+                        {{element.firstName}}
+                    </label> 
+                    <label *ngIf="element.middleName"> 
+                        &nbsp;{{element.middleName}}
+                    </label> 
+                    <label *ngIf="element.lastName"> 
+                        &nbsp;{{element.lastName}}
+                    </label>     
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="Address" >
+                <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Address </strong></th>
+                <td mat-cell *matCellDef="let element"> 
+                    <label>Address: {{element.address1}}</label>
+                        <br>
+                        <span *ngIf="element.address2">
+                            <label>&nbsp;Address 2: {{element.address2}}</label>
+                            <hr />
+                        </span> 
+                        
+                        {{element.city}} - {{element.state}} - {{element.zip}}
+
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="Phone" >
+                <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Phone </strong></th>
+                <td mat-cell *matCellDef="let element"> {{element.phone1}} </td>
+            </ng-container>
+            <ng-container matColumnDef="RP_Name" >
+                <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> RP Name </strong></th>
+                <td mat-cell *matCellDef="let element"> {{element.rpFullName}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Status_Code" >
+                <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Status Code </strong></th>
+                <td mat-cell *matCellDef="let element"> 
+                    <span *ngIf="element.statusCode === '800'" class="badge bg-success">{{element.statusCode}}</span>
+                                <span *ngIf="element.statusCode === '900'" class="badge bg-danger">{{element.statusCode}}</span>
+                                <span *ngIf="element.statusCode != '800' && element.statusCode != '900'" class="badge bg-light text-dark">{{element.statusCode}}</span>    
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="Service_Code" >
+                <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Service Code </strong></th>
+                <td mat-cell *matCellDef="let element"> {{element.serviceCode}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Action" >
+                <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong>  </strong></th>
+                <td mat-cell *matCellDef="let element"> 
+                    <a type="button" mat-stroked-button color="primary" (click)="ShowInfo(element.acctID)">Detalis</a>
+                    <a type="button" mat-stroked-button color="primary" (click)="ChargeForm(element.acctID)">Edit</a>    
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"> </tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Select pagePayer of _Payers"></mat-paginator>
+        
+    </div>
+</div>
+
+<ng-template #callAPIDialog>
+    <app-account-form [inAcctID]= modAcctID >
+    </app-account-form>
+</ng-template>
+
+

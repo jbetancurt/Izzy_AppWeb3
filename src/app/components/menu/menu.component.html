@@ -1,0 +1,27 @@
+<span *ngIf="inTipoMenu === 0">
+    <a mat-button routerLink="/">Home</a>
+    <span  *ngFor="let item0 of menuService.MenusXIdPadre(0)">
+        <button *ngIf="menuService.MenusXIdPadre(item0.id ?? 0).length > 0" mat-button [matMenuTriggerFor]="menu">{{ item0.name }} </button>
+        <mat-menu  #menu="matMenu" >
+            <button  *ngFor="let item of menuService.MenusXIdPadre(item0.id ?? 0)" mat-menu-item [routerLink]="item.value">{{ item.name }}</button>
+        </mat-menu>
+    </span>
+</span>
+<span *ngIf="inTipoMenu === 1">
+    <span  *ngFor="let item0 of menuService.MenusXIdPadre(0)">
+        
+          <a *ngIf="menuService.MenusXIdPadre(item0.id ?? 0).length > 0" mat-list-item [routerLink]="item0.value"> 
+                <button *ngIf="menuService.MenusXIdPadre(item0.id ?? 0).length > 0" mat-button [matMenuTriggerFor]="menu">{{ item0.name }} </button>
+                <mat-menu  #menu="matMenu" >
+                    
+                    <button  *ngFor="let item of menuService.MenusXIdPadre(item0.id ?? 0)" mat-menu-item [routerLink]="item.value">{{ item.name }}</button>
+                </mat-menu>
+          </a>
+        
+    </span>
+</span>
+
+
+
+
+

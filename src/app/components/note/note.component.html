@@ -1,0 +1,40 @@
+<mat-card>
+    <mat-card-title>
+        <h1>
+            <strong>Notes</strong>
+            <button class="btn-rigth" mat-stroked-button color="primary" (click)="openNewNote()">Add New Note</button>
+            
+        </h1>
+    </mat-card-title>
+    <mat-card-subtitle></mat-card-subtitle>
+    <mat-card-content>
+        <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="noteID" >
+                <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Id </strong></th>
+                <td mat-cell *matCellDef="let element"> {{element.noteID}} </td>
+            </ng-container>
+            <ng-container matColumnDef="acctID" >
+                <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Accnt # </strong></th>
+                <td mat-cell *matCellDef="let element"> {{element.acctID}} </td>
+            </ng-container>
+            <ng-container matColumnDef="noteText" >
+                <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Note </strong></th>
+                <td mat-cell *matCellDef="let element"> {{element.noteText}} </td>
+            </ng-container>
+            <ng-container matColumnDef="noteDate" >
+                <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Date </strong></th>
+                <td mat-cell *matCellDef="let element"> {{element.noteDate}} </td>
+            </ng-container>
+            <ng-container matColumnDef="userName" >
+                <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> User </strong></th>
+                <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"> </tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Select pagePayer of _Payers"></mat-paginator>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-button></button>
+    </mat-card-actions>
+  </mat-card>

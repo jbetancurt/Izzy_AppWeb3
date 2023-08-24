@@ -1,0 +1,291 @@
+<div class="row">
+    <div class="input-group">
+        <div class="col-md-2 px-0">
+            <span class="form-control form-control-lg"><strong>Account #:</strong>
+                <br />
+                {{Account.acctID }}
+            </span>
+        </div>
+        <div class="col-md-3 px-0">
+            <span class="form-control form-control-lg">
+                <strong>Client / Project:</strong>
+                <br />
+                {{Account.clientCode }} / {{Account.projectCode }}
+            </span>
+        </div>
+        <span class="form-control form-control-lg"><strong>Client Ref:</strong>
+            <br />
+            {{Account.clientRef1 }}</span>
+        <span class="form-control form-control-lg"><strong>Status:</strong>
+            <br />
+            <ng-container *ngIf="statusCodeAlert">
+                <span *ngIf="Account.statusCode === '800'" class="badge bg-success">{{Account.statusCode }}</span>
+                <span *ngIf="Account.statusCode === '900'" class="badge bg-danger">{{Account.statusCode }}</span>
+            </ng-container>
+            <span *ngIf="!statusCodeAlert"  class="badge bg-light text-dark">{{Account.statusCode }}</span>
+                
+        </span>
+        <span class="form-control form-control-lg"><strong>Status Date:</strong>
+            <br />
+            {{Account.statusDate | date:'mediumDate' }}</span>
+    </div>
+</div>			
+
+
+<div class="row">
+    <div class="input-group">
+        <div class="col-md-5 px-0">
+            <span class="form-control form-control-lg"><strong>Name:</strong>
+                <br />
+                {{Account.firstName }} {{Account.middleName }} {{Account.lastName }}
+            </span>
+        </div>
+        <span class="form-control form-control-lg"><strong>From:</strong>
+            <br />
+            {{Account.fromDate | date:'mediumDate' }}
+        </span>
+        <span class="form-control form-control-lg"><strong>To:</strong>
+            <br />
+            {{Account.toDate | date:'mediumDate' }}
+        </span>
+        <span class="form-control form-control-lg"><strong>FC:</strong>
+            <br />
+            {{Account.finClassCode }}
+        </span>
+    </div>
+</div>
+<hr>
+
+<div class="row">
+    <div class="input-group">
+        <span class="form-control"><strong>Address 1:</strong></span>
+        <label class="form-control" >{{Account.address1 }}</label>
+        <span class="form-control"><strong>Address 2:</strong></span>
+        <label class="form-control" >{{Account.address2 }}</label>
+    </div>
+</div>
+<div class="row">
+    <div class="input-group">
+        <span class="form-control"><strong>City State Zip:</strong></span>
+        <label class="form-control" >{{Account.city }}, {{Account.state }} {{Account.zip }}</label>
+        <span class="form-control"><strong>(Home /Alt) Phone:</strong></span>
+        <label class="form-control" >{{Account.phone1 }}-{{Account.phone2 }}</label>
+    </div>
+</div>
+<div class="row">
+    <div class="input-group">
+        <span class="form-control"><strong>Date of Birth:</strong></span>
+        <label class="form-control" >{{Account.dateOfBirth | date:'MM/dd/yyyy' }}</label>
+        <span class="form-control"><strong>SSN:</strong></span>
+        <label class="form-control" >{{Account.socialSec }}</label>
+    </div>
+</div>
+<div class="row">
+    <div class="input-group">
+        <span class="form-control"><strong>Gender:</strong></span>
+        <label class="form-control" >{{Account.gender }}</label>
+        <span class="form-control"><strong>Age Admission:</strong></span>
+        <label class="form-control" >{{ age }}</label>
+        <span class="form-control"><strong>MRN:</strong></span>
+        <label class="form-control" >{{Account.mRN }}</label>
+    </div>
+</div>
+<hr>
+
+
+    <mat-tab-group>
+        <mat-tab label=" Demographic">
+            <ng-template matTabContent>
+                <mat-card>
+                    <mat-card-title>
+                        
+                        <h1>
+                            Demographic
+                            <button class="btn-rigth" mat-stroked-button color="primary" (click)="ChargeForm(inAcctID)"> Edit </button>
+                        </h1>
+                        
+                    </mat-card-title>
+                    <mat-card-subtitle>
+                        <div class="row">
+                            <div class="col-md-6">Responsable</div>
+                            <div class="col-md-6">Employer</div>
+                        </div>                
+                    </mat-card-subtitle>
+                    <mat-card-content>
+                        <div class="row">
+                            <div class="input-group">
+                                <span class="form-control form-control-sm"><strong>Resp Party:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.rpFirstName }} {{Account.rpMiddleName }} {{Account.rpFirstName }}</label>
+                                <span class="form-control form-control-sm"><strong>Employer:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.employerName }}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-group">
+                                <span class="form-control form-control-sm"><strong>address 1:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.rpAddress1 }}</label>
+                                <span class="form-control form-control-sm"><strong>address 1:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.empAddress1 }}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-group">
+                                <span class="form-control form-control-sm"><strong>address 2:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.rpAddress2 }}</label>
+                                <span class="form-control form-control-sm"><strong>address 2:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.empAddress2 }}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-group">
+                                <span class="form-control form-control-sm"><strong>City-State-Zip:</strong></span>
+                                <label class="form-control form-control-sm">{{Account.rpCity }}-{{Account.rpState }}-{{Account.rpZip }}</label>
+                                <span class="form-control form-control-sm"><strong>City, State Zip:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.empCity }}, {{Account.empState }} {{Account.empZip }}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-group">
+                                <span class="form-control form-control-sm"><strong>Date of Birth:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.rpDateOfBirth | date:'mediumDate' }}</label>
+                                <span class="form-control form-control-sm"><strong>SSN:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.rpSocialSec }}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-group">
+                                <span class="form-control form-control-sm"><strong>Home Phone-Relationship:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.rpPhone1 }}-{{Account.relationship }}</label>
+                                <span class="form-control form-control-sm"><strong>Work Phone:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.empPhone }}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-group">
+                                <span class="form-control form-control-sm"><strong>Assigned Date:</strong></span>
+                                <label class="form-control form-control-sm">{{Account.placementDate | date:'MM/dd/yyyy' }}</label>
+                                <span class="form-control form-control-sm"><strong>Service Information:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.miscText1 }}</label>
+                                <span class="form-control form-control-sm"><strong>Total Charge:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.totalCharges }}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-group">
+                                <span class="form-control form-control-sm"><strong>Auto-Close Date:</strong></span>
+                                <label class="form-control form-control-sm">{{Account.autoClose | date:'MM/dd/yyyy' }}</label>
+                                <span class="form-control form-control-sm"><strong>SVC Code:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.serviceCode }}</label>  
+                                <span class="form-control form-control-sm"><strong>Prior Payments:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.priorPayments }}</label>  
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-group">
+                                <span class="form-control form-control-sm"><strong>Last Bill:</strong></span>
+                                <label class="form-control form-control-sm">{{Account.lastBillDate | date:'MM/dd/yyyy' }}</label>
+                                <span class="form-control form-control-sm"><strong>miscDate1:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.miscDate1 | date:'MM/dd/yyyy' }}</label>
+                                <span class="form-control form-control-sm"><strong>prior Adjustments:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.priorAdjustments }}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-group">
+                                <span class="form-control form-control-sm"><strong>Action Code:</strong></span>
+                                <label class="form-control form-control-sm">{{Account.actionCode }}</label>
+                                <span class="form-control form-control-sm"><strong>miscNum1:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.miscNum1 }}</label>
+                                <span class="form-control form-control-sm"><strong>Assigned Amount:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.assignedAmount }}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-group">
+                                <span class="form-control form-control-sm"><strong>Last Paymmet:</strong></span>
+                                <label class="form-control form-control-sm">{{Account.lastPayAmt  }}</label>
+                                <span class="form-control form-control-sm"><strong>Made On:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.lastPayDate | date:'MM/dd/yyyy' }}</label>
+                                <span class="form-control form-control-sm"><strong>Payments:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.payments }}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-group">
+                                <span class="form-control form-control-sm"><strong>Last letter:</strong></span>
+                                <label class="form-control form-control-sm">{{Account.lastLtrCode }}</label>
+                                <span class="form-control form-control-sm"><strong>Sent On:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.lastLtrDate | date:'MM/dd/yyyy' }}</label>
+                                <span class="form-control form-control-sm"><strong>adjustments:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.adjustments }}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-group">
+                                <span class="form-control form-control-sm"><strong>Promise to Pay:</strong></span>
+                                <label class="form-control form-control-sm">{{Account.promiseAmount  }}</label>
+                                <span class="form-control form-control-sm"><strong>On:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.promiseDate | date:'MM/dd/yyyy' }}</label>
+                                <span class="form-control form-control-sm"><strong>balance Due:</strong></span>
+                                <label class="form-control form-control-sm" >{{Account.balanceDue }}</label>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                    <mat-card-actions>
+                        
+                    </mat-card-actions>
+                </mat-card>
+            </ng-template>
+        </mat-tab>
+        <mat-tab label=" Insurance">
+          <ng-template matTabContent>
+            <mat-card>
+                <mat-card-title> Payment History</mat-card-title>
+                <mat-card-subtitle></mat-card-subtitle>
+                <mat-card-content>
+                    <app-payment [inAcctID]= inAcctID *ngIf="inAcctID != ''"></app-payment>
+                </mat-card-content>
+                <mat-card-actions>
+                  <button mat-button></button>
+                </mat-card-actions>
+              </mat-card>
+              <hr />
+              <mat-card>
+                <mat-card-title>
+                    <h1><strong>Payers</strong></h1>
+                </mat-card-title>
+                <mat-card-subtitle></mat-card-subtitle>
+                <mat-card-content>
+                    <app-payer [inAcctID]= inAcctID *ngIf="inAcctID != ''"></app-payer>
+                </mat-card-content>
+                <mat-card-actions align="end">
+                  <button mat-button></button>
+                </mat-card-actions>
+              </mat-card>
+              <hr />
+              <mat-card>
+                <mat-card-title>
+                    <h1><strong>Scheduled Letters</strong></h1>
+                </mat-card-title>
+                <mat-card-subtitle></mat-card-subtitle>
+                <mat-card-content>
+                    <app-letter-q [inAcctID]= inAcctID *ngIf="inAcctID != ''"></app-letter-q>
+                </mat-card-content>
+                <mat-card-actions align="end">
+                  <button mat-button></button>
+                </mat-card-actions>
+              </mat-card>
+            
+          </ng-template>
+        </mat-tab>
+        <mat-tab label="Notes">
+            <ng-template matTabContent>
+                <app-note [inAcctID]= inAcctID *ngIf="inAcctID != ''"></app-note>
+            </ng-template>
+        </mat-tab>
+    </mat-tab-group>
+    
+<ng-template #callAPIDialog>
+    <app-account-form [inAcctID]= inAcctID>
+    </app-account-form>
+</ng-template>

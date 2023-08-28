@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, FormControl, UntypedFormGroup } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Note, NoteService } from '..';
 import { Account, AccountService } from '../../account';
 import { Action } from '../../action';
@@ -29,6 +29,7 @@ export class NoteEditComponent implements OnInit {
     EditStatus : false,
     letterCode : "",
     letterDate : new Date,
+    SelectMailOption :"",
     statusCode : "",
   });
   sendLetter = false;
@@ -115,17 +116,9 @@ export class NoteEditComponent implements OnInit {
     if (this._Action.length > 0){
       let actionLocal = this._Action.filter(x => x.actionCode == code);
       if (actionLocal.length > 0 && actionLocal[0].note){
-        
-        let noteVal = this.addNoteFormGroup.get("noteText")?.value ?? "";
-        if (noteVal && noteVal != ""){
-          noteVal += actionLocal[0].note;
-        }
-        else {
-          noteVal = actionLocal[0].note;
-        }
         this.EditStatus = (actionLocal[0].status ?? "") !="";
         this.addNoteFormGroup.patchValue({
-          noteText : noteVal, 
+          noteText : actionLocal[0].note, 
           statusCode : actionLocal[0].status,
           acctID : this.inAcctID,
           EditStatus : this.EditStatus
@@ -212,8 +205,6 @@ export class NoteEditComponent implements OnInit {
       this.objNote.noteDate = new Date();
       this.objNote.noteText = noteFG.noteText;
       this.objNote.upload = false;
-      console.log(this.objNote);
-      console.log(noteFG.acctID);
       this.objNote.userName = this.loginService.getUser().loginID;    
       this.saveNote(this.objNote);
     }
@@ -242,19 +233,13 @@ export class NoteEditComponent implements OnInit {
     this.MailRetunred = completed;
   }
   public ChangeMailOption(code : string): void{
+    console.log(code);
+    
     if (this.MailReturnedOptions.length > 0){
       let actionLocal = this.MailReturnedOptions.filter(x => x.id == code);
       if (actionLocal.length > 0 && actionLocal[0].label){
-        
-        let noteVal = this.addNoteFormGroup.get("noteText")?.value ?? "";
-        if (noteVal && noteVal != ""){
-          noteVal += ", " + actionLocal[0].label;
-        }
-        else {
-          noteVal = actionLocal[0].label;
-        }
         this.addNoteFormGroup.patchValue({
-          noteText : noteVal
+          noteText : actionLocal[0].label
           // formControlName2: myValue2 (can be omitted)
         });
         let noteFG = this.addNoteFormGroup.value;

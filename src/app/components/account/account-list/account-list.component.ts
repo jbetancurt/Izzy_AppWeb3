@@ -12,7 +12,7 @@ import { Client, ClientService } from '../../client';
   templateUrl: './account-list.component.html',
   styleUrls: ['./account-list.component.css']
 })
-export class AccountListComponent implements OnInit {
+export class AccountListComponent implements OnInit  {
   dataSource!: MatTableDataSource<Account>;
   displayedColumns: string[] = ['Client_code', 'Account', 'SSN', 'DOB','Name', 'Address', 'Phone','RP_Name', 'Status_Code', 'Service_Code','Action'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -74,6 +74,11 @@ export class AccountListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadClient();
+    if (this.dataSource != null){
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+
+    }
   }
 
   public ChageValues(clientCode : String, optios : string, value : String) : void{
@@ -97,6 +102,8 @@ export class AccountListComponent implements OnInit {
   }
   public ChageOptions(clientCode : String, optios : string, value : String) : void{
     this.searchValue = '';
+    console.log(value);
+    
     this.disabledButton = value == "" || optios == '';
     this._Accounts = [];
     this.allAccounts = [];
@@ -121,19 +128,14 @@ export class AccountListComponent implements OnInit {
         + (val.rpFullName ?? "")
       ).toLowerCase().includes(value.toLowerCase().replace(/\s/g, ""))
     );
+    this.dataSource 
+    this.dataSource = new MatTableDataSource(this._Accounts);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
     this.collectionSize = this._Accounts.length;
     
   }
 
-  copyToClipboard(item?: any) {
-    let listener = (e: ClipboardEvent) => {
-      e.clipboardData?.setData('text/plain', (item ?? ""));
-      e.preventDefault();
-    };
-    document.addEventListener('copy', listener);
-    document.execCommand('copy');
-    document.removeEventListener('copy', listener);
-  }
 
   refreshParent(id? : number){
     //console.log(id ?? 0)
@@ -156,18 +158,16 @@ export class AccountListComponent implements OnInit {
   }
   public LoadAccounts(Option : string, Value :string, clientCode : string) : void{
     //this._loaderShow = true;
-    this._AccountService.List(Option,Value, clientCode).subscribe(
-      data => {
-        this.allAccounts = data;
+    this._AccountService.List(Option,Value, clientCode).subscribe((data : Account[]) => {
+      this.allAccounts = data;
         this._Accounts = data;
         this.dataSource = new MatTableDataSource(data);
-        this.collectionSize = data.length; 
-        //this._loaderShow = false;
-      },
-      err => {
-        console.error(err);
-      }
-    );
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.collectionSize = data.length;         
+    });
+    
+
   }
   
   public ChageClient(clientCode : String, optios : string, value : String) : void{

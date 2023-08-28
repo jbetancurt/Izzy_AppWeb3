@@ -1,9 +1,9 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { Payer, PayerService } from '.';
 
 @Component({
@@ -38,6 +38,8 @@ export class PayerComponent implements OnInit {
   public LoadPayer(acctID : string): void{
     this.payerService.List(acctID).subscribe({
       next: (data : Payer[]) => { 
+        console.log(data);
+        
         this._Payers = data;
         this.dataSource = new MatTableDataSource(data);
         if (data != null && data.length > 0){

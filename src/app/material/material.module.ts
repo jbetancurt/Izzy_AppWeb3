@@ -17,6 +17,15 @@ import {MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule} from '@angular/material/sort';
 import { MatDialogModule} from '@angular/material/dialog';
 import { MatCheckboxModule} from '@angular/material/checkbox';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatBadgeModule } from '@angular/material/badge';
 
 
 
@@ -39,13 +48,23 @@ import { MatCheckboxModule} from '@angular/material/checkbox';
     MatTabsModule,
     MatPaginatorModule,
     MatSortModule,
-    MatDialogModule
+    MatDialogModule,
+    MatExpansionModule,
+    MatButtonModule,
+    MatNativeDateModule,
+    MatProgressSpinnerModule,
+    MatMenuModule,
+    MatTooltipModule,
+    MatButtonToggleModule,
+    MatChipsModule,
+    MatBadgeModule
   ],
   exports: [
     MatSidenavModule,
     MatToolbarModule,
     MatIconModule,
     MatListModule,
+    MatGridListModule,
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
@@ -57,7 +76,16 @@ import { MatCheckboxModule} from '@angular/material/checkbox';
     MatPaginatorModule,
     MatSortModule,
     MatDialogModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatExpansionModule,
+    MatButtonModule,
+    MatNativeDateModule,
+    MatProgressSpinnerModule,
+    MatMenuModule,
+    MatTooltipModule,
+    MatButtonToggleModule,
+    MatChipsModule,
+    MatBadgeModule
   ]
 })
 export class MaterialModule { }

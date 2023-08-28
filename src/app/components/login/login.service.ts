@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Users } from '../users/';
 import { Login } from './'
-const urlPage = '/api/Authenticate';
+import { environment } from 'src/environments/environment';
+const urlPage = environment.apiUrl + '/api/Authenticate';
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
 const httpOptions = {

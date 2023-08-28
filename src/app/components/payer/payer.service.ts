@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Payer } from './';
 import { LoginService } from '../login/login.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,8 @@ import { LoginService } from '../login/login.service';
 
 export class PayerService {
   _Payer? : Payer[];
-  lstPayers = '/api/Payers/list';
-  urlPage = '/api/Payers';
+  lstPayers = environment.apiUrl + '/api/Payers/list';
+  urlPage = environment.apiUrl + '/api/Payers';
   
   httpOptions = { headers : this.loginService.GetHeaters()};
 

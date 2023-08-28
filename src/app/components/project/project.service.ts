@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Project } from './';
 import { LoginService } from '../login/login.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
   _Project? : Project[];
-  urlPage = '/api/ProjectByClient';
+  urlPage = environment.apiUrl + '/api/Project';
   httpOptions = { headers : this.loginService.GetHeaters()};
   
   constructor(private httpClient : HttpClient, private loginService : LoginService) { }

@@ -5,14 +5,15 @@ import { Client } from '../client';
 import { LoginService } from '../login/login.service';
 import { Action } from '../action';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LetterQService {
   _LetterQ? : LetterQ[];
-  lstLetterQs = '/api/LetterQ/list';
-  urlPage = '/api/LetterQ';
+  lstLetterQs = environment.apiUrl + '/api/LetterQ/list';
+  urlPage = environment.apiUrl + '/api/LetterQ';
   httpOptions = { headers : this.loginService.GetHeaters()};
 
   constructor(

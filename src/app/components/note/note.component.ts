@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { LetterQ, LetterQService } from '../letter-q';
 import { Note, NoteService, NoteEditComponent } from './';
 
@@ -45,7 +45,9 @@ export class NoteComponent implements OnInit {
     });
   }
   openNewNote(){
-    const dialogRef = this.modalService.open(NoteEditComponent);
+    const dialogRef = this.modalService.open(NoteEditComponent, {
+      width: '80%',
+    });
     dialogRef.componentInstance.inAcctID = this.inAcctID;
 
     dialogRef.afterClosed().subscribe(result => {

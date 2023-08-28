@@ -1,0 +1,35 @@
+<mat-accordion>
+    <mat-expansion-panel [expanded]="!displayAccount"  
+    (opened)="displayAccount = false"
+    (closed)="displayAccount = true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+            <h1>Advance Search </h1>
+        </mat-panel-title>
+        <mat-panel-description>
+            
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-account-list (outAcctID)="setAcctID($event)"></app-account-list>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="displayAccount"  *ngIf="modAcctID != ''"
+    (opened)="displayAccount = true"
+    (closed)="displayAccount = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h1>Account Info</h1>
+        </mat-panel-title>
+        <mat-panel-description>
+            
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+        <app-account [inAcctID]= modAcctID *ngIf="displayAccount === true"></app-account>
+      
+      
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  
+
+  
+  

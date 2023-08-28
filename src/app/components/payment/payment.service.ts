@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Payment } from './';
 import { LoginService } from '../login/login.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,8 @@ import { LoginService } from '../login/login.service';
 
 export class PaymentService {
   _Payment? : Payment[];
-  lstPayments = '/api/Payments/list';
-  urlPage = '/api/Payments';
+  lstPayments = environment.apiUrl + '/api/Payments/list';
+  urlPage = environment.apiUrl + '/api/Payments';
   httpOptions = { headers : this.loginService.GetHeaters()};
 
   constructor(private httpClient : HttpClient, private loginService : LoginService) { }

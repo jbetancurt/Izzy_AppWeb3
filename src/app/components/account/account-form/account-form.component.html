@@ -7,7 +7,7 @@
     </h1>
     <div mat-dialog-content>
         <div class="starter-template">
-            <div class="row">
+            <div fxLayout="row" fxLayoutGap="5px">
                 <div class="col-md-12 mt-5">
                     <h1>{{ titulo }} </h1>
                 </div>
@@ -20,266 +20,339 @@
         <input type="hidden" formControlName="serviceCode" />
         
     
-        <div class="row">
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">Client/Project</span>
-                        <select #SelectClient formControlName="clientCode" class="form-control" (change)="LoadProjects(SelectClient.value)" >
-                            <option value=""></option>
-                            <option  *ngFor="let item of allClients" [value]="item.clientCode">{{ item.clientCode }} - {{ item.name| uppercase }}</option>
-                        </select>
-                        <select #SelectProject formControlName="projectCode"  class="form-control"  >
-                            <option  *ngFor="let item of ListProjects" [value]="item.projectCode">{{ item.projectCode }} - {{ item.name| uppercase }}</option>
-                        </select>
-                    </div>
+        <div fxLayout="row" fxLayoutGap="5px">
+            <div appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                <div fxLayout="row" fxLayoutGap="5px">
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Client: </mat-label>
+                        <mat-select #SelectClient formControlName="clientCode" (selectionChange)="LoadProjects(SelectClient.value)">
+                            <mat-option></mat-option>
+                            <mat-option  *ngFor="let item of allClients" [value]="item.clientCode">{{ item.clientCode }} - {{ item.name| uppercase }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Project: </mat-label>
+                        <mat-select #SelectProject formControlName="projectCode" >
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let item of ListProjects" [value]="item.projectCode">{{ item.projectCode }} - {{ item.name| uppercase }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
                 </div>
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">Client Reference #:</span>
-                        <input type="text" formControlName="clientRef1" aria-label="Client Reference #" class="form-control">
-                    </div>
+                <div fxLayout="row" fxLayoutGap="5px" >
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Client Reference #</mat-label>
+                        <input matInput formControlName="clientRef1"  >
+                    </mat-form-field>
                 </div>
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">Name:</span>
-                        <input type="text" formControlName="firstName" aria-label="First name" class="form-control">
-                        <input type="text" formControlName="middleName" aria-label="Middle name" class="form-control">
-                        <input type="text" formControlName="lastName" aria-label="Last name" class="form-control">
-                    </div>
+                <div fxLayout="row" fxLayoutGap="5px" >
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>First name</mat-label>
+                        <input matInput formControlName="firstName"  >
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Middle name</mat-label>
+                        <input matInput formControlName="middleName"  >
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Last name</mat-label>
+                        <input matInput formControlName="lastName"  >
+                    </mat-form-field>
                 </div>
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">Address Line 1:</span>
-                        <input type="text" formControlName="address1" aria-label="Client Reference #" class="form-control">
-                    </div>
+                
+                <div fxLayout="row" fxLayoutGap="5px" >
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Address Line 1</mat-label>
+                        <input matInput formControlName="address1"  >
+                    </mat-form-field>
                 </div>
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">Address Line 2:</span>
-                        <input type="text" formControlName="address2" aria-label="Client Reference #" class="form-control">
-                    </div>
+                <div fxLayout="row" fxLayoutGap="5px" >
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Address Line 2</mat-label>
+                        <input matInput formControlName="address2"  >
+                    </mat-form-field>
                 </div>
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">City  State Zip Code:</span>
-                        <input type="text" formControlName="city" aria-label="city" class="form-control">
-                        <input type="text" formControlName="state" aria-label="state" class="form-control">
-                        <input type="text" formControlName="zip" aria-label="zip" class="form-control">
-                    </div>
+                
+                <div fxLayout="row" fxLayoutGap="5px" >
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>City</mat-label>
+                        <input matInput formControlName="city"  >
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>State</mat-label>
+                        <input matInput formControlName="state"  >
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Zip Code</mat-label>
+                        <input matInput formControlName="zip"  >
+                    </mat-form-field>
                 </div>
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">Home / Alt Phone:</span>
-                        <input type="text" formControlName="phone1" aria-label="phone Home" class="form-control">
-                        <input type="text" formControlName="phone2" aria-label="phone Alt" class="form-control">
-                    </div>
+                
+                <div fxLayout="row" fxLayoutGap="5px" >
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Home</mat-label>
+                        <input matInput formControlName="phone1"  >
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Alt Phone</mat-label>
+                        <input matInput formControlName="phone2"  >
+                    </mat-form-field>
                 </div>
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">Date Of Birth:</span>
-                        <input type="datetime-local" formControlName="dateOfBirth" 
-                            aria-label="dateOfBirth" class="form-control">
-                        <span class="input-group-text">SSN:</span>
-                        <input type="text" formControlName="socialSec" aria-label="" class="form-control">
-                    </div>
+                <div fxLayout="row" fxLayoutGap="5px" >
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Date Of Birth</mat-label>
+                        <input matInput [matDatepicker]="dateOfBirth" formControlName="dateOfBirth">
+                        <mat-hint>MM/DD/YYYY </mat-hint>
+                        <mat-datepicker-toggle matSuffix [for]="dateOfBirth"></mat-datepicker-toggle>
+                        <mat-datepicker #dateOfBirth></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>SSN</mat-label>
+                        <input matInput formControlName="socialSec"  >
+                    </mat-form-field>
                 </div>
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">Identification #:</span>
-                        <input type="text" formControlName="idNumber" aria-label="idNumber" class="form-control">
-                        <span class="input-group-text">Gender:</span>
-                        <select #SelectClient formControlName="gender" class="form-control" >
-                            <option value="">SELECT A OPTION</option>
-                            <option value="F">FEMALE</option>
-                            <option value="M">MALE</option>
-                        </select>
-                    </div>
+                <div fxLayout="row" fxLayoutGap="5px" >
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Identification #</mat-label>
+                        <input matInput formControlName="idNumber"  >
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Gender</mat-label>
+                        <mat-select #SelectClient formControlName="gender" appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-option value=""></mat-option>
+                            <mat-option value="F">FEMALE</mat-option>
+                            <mat-option value="M">MALE</mat-option>
+                        </mat-select>
+                    </mat-form-field>                    
                 </div>
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">Medical Record #:</span>
-                        <input type="text" formControlName="idNumber" aria-label="Client Reference #" class="form-control">
-                    </div>
-                </div>
-    
-    
-    
-    
-                <div class="row">
-                    <div class="input-group">                  
-                        <button  type="button" class="btn btn-primary float-left" (click)="CopyToRP()">Copy To RP</button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">Resp Party Name:</span>
-                        <input type="text" formControlName="rpFirstName"  aria-label="First name" class="form-control">
-                        <input type="text" formControlName="rpMiddleName" aria-label="Middle name" class="form-control">
-                        <input type="text" formControlName="rpLastName" aria-label="Last name" class="form-control">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">Address Line 1:</span>
-                        <input type="text" formControlName="rpAddress1" aria-label="Client Reference #" class="form-control">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">Address Line 2:</span>
-                        <input type="text" formControlName="rpAddress2" aria-label="Client Reference #" class="form-control">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">City  State Zip Code:</span>
-                        <input type="text" formControlName="rpCity" aria-label="city" class="form-control">
-                        <input type="text" formControlName="rpState" aria-label="state" class="form-control">
-                        <input type="text" formControlName="rpZip" aria-label="zip" class="form-control">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">Rep Phone:</span>
-                        <input type="text" formControlName="rpPhone1" aria-label="phone Home" class="form-control">
-                        <span class="input-group-text">Relationship:</span>
-                        <input type="text" formControlName="relationship" aria-label="phone Alt" class="form-control">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">Rp Date Of Birth:</span>
-                        <input type="datetime-local" formControlName="rpDateOfBirth" 
-                            aria-label="rpDateOfBirth" class="form-control">
-                        <span class="input-group-text">RP SSN:</span>
-                        <input type="text" formControlName="rpSocialSec" aria-label="" class="form-control">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">Country:</span>
-                        <input type="text" formControlName="rpCountry" aria-label="" class="form-control">
-                        <span class="input-group-text">Use RP on Letter:</span>
-                        <input type="checkbox" formControlName="rpUseOnLtr" aria-label="" class="form-control">
-                    </div>
+                <div fxLayout="row" fxLayoutGap="5px" >
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Medical Record #</mat-label>
+                        <input matInput formControlName="idNumber"  >
+                    </mat-form-field>
                 </div>
     
     
     
     
-    
-    
+                <div fxLayout="row" fxLayoutGap="5px">
+                    <div appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>                  
+                        <button mat-stroked-button color="primary" (click)="CopyToRP()">Copy To RP</button>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayoutGap="5px" >
+                    <strong>Resp Party</strong>
+                </div>
+                <div fxLayout="row" fxLayoutGap="5px" >
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>RP First name</mat-label>
+                        <input matInput formControlName="rpFirstName"  >
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>RP Middle name</mat-label>
+                        <input matInput formControlName="rpmiddleName"  >
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>RP Last name</mat-label>
+                        <input matInput formControlName="rplastName"  >
+                    </mat-form-field>
+                </div>
+
+
+                
+                <div fxLayout="row" fxLayoutGap="5px" >
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>RP Address Line 1</mat-label>
+                        <input matInput formControlName="rpAddress1"  >
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row" fxLayoutGap="5px" >
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>RP Address Line 2</mat-label>
+                        <input matInput formControlName="rpAddress2"  >
+                    </mat-form-field>
+                </div>
+                
+                <div fxLayout="row" fxLayoutGap="5px" >
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>RP City</mat-label>
+                        <input matInput formControlName="rpCity"  >
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>RP State</mat-label>
+                        <input matInput formControlName="rpState"  >
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>RP Zip Code</mat-label>
+                        <input matInput formControlName="rpZip"  >
+                    </mat-form-field>
+                </div>
+                
+                <div fxLayout="row" fxLayoutGap="5px" >
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>RP Phone</mat-label>
+                        <input matInput formControlName="rpPhone1"  >
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Relationship</mat-label>
+                        <input matInput formControlName="Relationship"  >
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row" fxLayoutGap="5px" >
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>RP Date Of Birth</mat-label>
+                        <input matInput [matDatepicker]="rpDateOfBirth" formControlName="rpDateOfBirth">
+                        <mat-hint>MM/DD/YYYY </mat-hint>
+                        <mat-datepicker-toggle matSuffix [for]="rpDateOfBirth"></mat-datepicker-toggle>
+                        <mat-datepicker #rpDateOfBirth></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>RP SSN</mat-label>
+                        <input matInput formControlName="rpSocialSec"  >
+                    </mat-form-field>
+                </div>
+                
+                <div fxLayout="row" fxLayoutGap="5px" >
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>RP Country</mat-label>
+                        <input matInput formControlName="rpCountry"  >
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Use RP on Letter</mat-label>
+                        <input matInput formControlName="rpUseOnLtr"  >
+                    </mat-form-field>
+                </div>
             </div>
         </div>
         <hr>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">Employer:</span>
-                        <input type="text" formControlName="employerName" aria-label="Employer name" class="form-control">
-                    </div>
+        <div fxLayout="row" fxLayoutGap="5px" >
+            <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                <mat-label>Employer</mat-label>
+                <input matInput formControlName="employerName"  >
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutGap="5px">
+            <div appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                <div fxLayout="row" fxLayoutGap="5px" >
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Work Address Line 1</mat-label>
+                        <input matInput formControlName="empAddress1"  >
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Work Address Line 2</mat-label>
+                        <input matInput formControlName="empAddress2"  >
+                    </mat-form-field>
                 </div>
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">Address Line 1:</span>
-                        <input type="text" formControlName="empAddress1" aria-label="Employer Address #" class="form-control">
-                    </div>
+                <div fxLayout="row" fxLayoutGap="5px" >
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Work City</mat-label>
+                        <input matInput formControlName="empCity"  >
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Work State</mat-label>
+                        <input matInput formControlName="empState"  >
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Work Zip Code</mat-label>
+                        <input matInput formControlName="empZip"  >
+                    </mat-form-field>
                 </div>
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">Address Line 2:</span>
-                        <input type="text" formControlName="empAddress2" aria-label="Employer Address #" class="form-control">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">City  State Zip Code:</span>
-                        <input type="text" formControlName="empCity" aria-label="city" class="form-control">
-                        <input type="text" formControlName="empState" aria-label="state" class="form-control">
-                        <input type="text" formControlName="empZip" aria-label="zip" class="form-control">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">Work Phone:</span>
-                        <input type="text" formControlName="empPhone" aria-label="phone Home" class="form-control">
-                    </div>
+                
+                <div fxLayout="row" fxLayoutGap="5px" >
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Work Phone</mat-label>
+                        <input matInput formControlName="empPhone1"  >
+                    </mat-form-field>
                 </div>
                 <br>
                 <br>
                 <br>    
     
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">From Date:</span>
-                        <input type="datetime-local" formControlName="fromDate" 
-                            aria-label="rpDateOfBirth" class="form-control">
-                        <span class="input-group-text">Total Charges:</span>
-                        <input type="text" formControlName="totalCharges" aria-label="" class="form-control">
-                    </div>
+                <div fxLayout="row" fxLayoutGap="5px">
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>From Date</mat-label>
+                        <input matInput [matDatepicker]="fromDate" formControlName="fromDate">
+                        <mat-hint>MM/DD/YYYY </mat-hint>
+                        <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+                        <mat-datepicker #fromDate></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Total Charges</mat-label>
+                        <input matInput formControlName="totalCharges"  >
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row" fxLayoutGap="5px">
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>To Date</mat-label>
+                        <input matInput [matDatepicker]="toDate" formControlName="toDate">
+                        <mat-hint>MM/DD/YYYY </mat-hint>
+                        <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+                        <mat-datepicker #toDate></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Prior Payments</mat-label>
+                        <input matInput formControlName="priorPayments"  >
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row" fxLayoutGap="5px">
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Financial Class</mat-label>
+                        <input matInput formControlName="finClassCode"  >
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Prior Adjustments</mat-label>
+                        <input matInput formControlName="priorAdjustments"  >
+                    </mat-form-field>
                 </div>
                 
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">To Date:</span>
-                        <input type="datetime-local" formControlName="toDate" 
-                            aria-label="rpDateOfBirth" 
-                            class="form-control">
-                        <span class="input-group-text">Prior Payments:</span>
-                        <input type="text" formControlName="priorPayments" aria-label="" class="form-control">
-                    </div>
+                <div fxLayout="row" fxLayoutGap="5px">
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Service Code</mat-label>
+                        <input matInput formControlName="serviceCode"  >
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Assigned Amount</mat-label>
+                        <input matInput formControlName="assignedAmount"  >
+                    </mat-form-field>
                 </div>
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">Financial Class:</span>
-                        <input type="text" formControlName="finClassCode" aria-label="" class="form-control">
-                        <span class="input-group-text">Prior Adjustments:</span>
-                        <input type="text" formControlName="priorAdjustments" aria-label="" class="form-control">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">Service Code:</span>
-                        <input type="text" formControlName="serviceCode" aria-label="" class="form-control">
-                        <span class="input-group-text">Assigned Amount:</span>
-                        <input type="text" formControlName="assignedAmount" aria-label="" class="form-control">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-group">
-                        <label class="form-control"></label>
-                        <label class="form-control"></label>
-                        <span class="input-group-text">Payments:</span>
-                        <input type="text" formControlName="payments" aria-label="" class="form-control">
-                    </div>
-                </div>
-    
-                
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">bill Type:</span>
-                        <input type="text" formControlName="lastBillType" aria-label="" class="form-control">
-                        <span class="input-group-text">Adjustments:</span>
-                        <input type="text" formControlName="adjustments" aria-label="" class="form-control">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">bill Date:</span>
-                        <input type="text" formControlName="lastBillDate" aria-label="" class="form-control">
-                        <span class="input-group-text">Balance Due:</span>
-                        <input type="text" formControlName="balanceDue" aria-label="" class="form-control">
-                    </div>
+
+                <div fxLayout="row" fxLayoutGap="5px">
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Payments</mat-label>
+                        <input matInput formControlName="payments"  >
+                    </mat-form-field>
                 </div>
                 
-                <div class="row">
-                    <div class="input-group">
-                        <span class="input-group-text">Assigned Date:</span>
-                        
-                        <input type="datetime-local" formControlName="placementDate" aria-label="" class="form-control">
-                    </div>
+                <div fxLayout="row" fxLayoutGap="5px">
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>bill Type</mat-label>
+                        <input matInput formControlName="lastBillType"  >
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Adjustments</mat-label>
+                        <input matInput formControlName="adjustments"  >
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row" fxLayoutGap="5px">
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>bill Date</mat-label>
+                        <input matInput [matDatepicker]="lastBillDate" formControlName="lastBillDate">
+                        <mat-hint>MM/DD/YYYY </mat-hint>
+                        <mat-datepicker-toggle matSuffix [for]="lastBillDate"></mat-datepicker-toggle>
+                        <mat-datepicker #lastBillDate></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Balance Due</mat-label>
+                        <input matInput formControlName="balanceDue"  >
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row" fxLayoutGap="5px">
+                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                        <mat-label>Assigned Date</mat-label>
+                        <input matInput [matDatepicker]="placementDate" formControlName="placementDate">
+                        <mat-hint>MM/DD/YYYY </mat-hint>
+                        <mat-datepicker-toggle matSuffix [for]="placementDate"></mat-datepicker-toggle>
+                        <mat-datepicker #placementDate></mat-datepicker>
+                    </mat-form-field>
                 </div>
                 
             </div>
@@ -288,8 +361,8 @@
         
     </div>
     <div mat-dialog-actions>
-        <div class="row">
-            <div class="col-md-12">
+        <div fxLayout="row" fxLayoutGap="5px">
+            <div appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
                 <div class="input-group mb-3">
                     <button type="submit" mat-stroked-button color="primary">Save</button>
                 </div>            

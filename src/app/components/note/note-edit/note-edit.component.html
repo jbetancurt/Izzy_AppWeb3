@@ -6,7 +6,7 @@
         </button>
     </h1>
     <div mat-dialog-content>
-        <div class="row">
+        <div fxLayout="row" fxLayoutGap="5px">
             <div *ngIf="!checkBoxSendLetterEnable" class="col-md-12">
                 <mat-error>
                     Letter disable: 
@@ -19,86 +19,74 @@
             </div>
         </div>
         <div *ngIf="sendLetter">
-            <div class="row">
-                <div class="col-md-12">
-                    <p>
-                        <mat-form-field appearance="fill">
-                            <mat-label>Date to send</mat-label>
-                            <input matInput [matDatepicker]="letterDate" formControlName="letterDate">
-                            <mat-hint>MM/DD/YYYY</mat-hint>
-                            <mat-datepicker-toggle matSuffix [for]="letterDate"></mat-datepicker-toggle>
-                            <mat-datepicker #letterDate></mat-datepicker>
-                        </mat-form-field>
-                    </p>
-                </div>
+            <div fxLayout="row" fxLayoutGap="5px">
+                <mat-form-field appearance="fill" fxFlex>
+                    <mat-label>Date to send</mat-label>
+                    <input matInput [matDatepicker]="letterDate" formControlName="letterDate">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matSuffix [for]="letterDate"></mat-datepicker-toggle>
+                    <mat-datepicker #letterDate></mat-datepicker>
+                </mat-form-field>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <strong>Letter</strong>
-                    <p>
-                        <select #SelectAction class="custom-select form-control"  formControlName="letterCode" >
-                            <option value="">Selecect</option>
-                            <ng-container *ngFor="let letLetter of lstLetter">
-                                <option *ngIf="letLetter.letterCode" [value]="letLetter.letterCode">{{letLetter.letterCode}} ({{letLetter.description}})</option>
-                            </ng-container>
-                        </select>
-                    </p>
-                    
-                </div>
+            <div fxLayout="row" fxLayoutGap="5px">
+                <mat-form-field appearance="fill" fxFlex>
+                    <mat-label>Letter</mat-label>
+                    <mat-select #SelectAction formControlName="letterCode">
+                        <mat-option *ngFor="let item of lstLetter" [value]="item.letterCode">{{ item.letterCode }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
             
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <strong>Action</strong>
-                <select #SelectAction class="custom-select form-control"  formControlName="actionCode"  (change)="ChangeAction(SelectAction.value)">
-                    <option value="">Selecect</option>
-                    <ng-container *ngFor="let letAction of _Action">
-                        <option *ngIf="letAction.status" [value]="letAction.actionCode">{{letAction.description}} ({{letAction.status}})</option>
-                        <option *ngIf="!letAction.status" [value]="letAction.actionCode">{{letAction.description}}</option>
-                      </ng-container>
-                </select>
-            </div>
+        <div fxLayout="row" fxLayoutGap="5px">
+            <mat-form-field appearance="fill" fxFlex>
+                <mat-label>Action</mat-label>
+                <mat-select #SelectAction formControlName="actionCode" (selectionChange)="ChangeAction(SelectAction.value)">
+                    <mat-option *ngFor="let letAction of _Action"  [value]="letAction.actionCode">
+                        <span *ngIf="letAction.status">{{letAction.description}} ({{letAction.status}})</span>
+                        <span *ngIf="!letAction.status">{{letAction.description}}</span>
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
         </div>
 
-        <div class="row">            
-            <div class="col-md-12">
-                <mat-checkbox (change)="setMailRetunred($event.checked)" class="example-margin" formControlName="isCheked"> Returned Mail?</mat-checkbox>
-            </div>
+        <div fxLayout="row" fxLayoutGap="5px">            
+            <mat-checkbox (change)="setMailRetunred($event.checked)" fxFlex  formControlName="isCheked"> Returned Mail?</mat-checkbox>
         </div>
-        <div *ngIf="MailRetunred"  class="row">
-            <div class="col-md-12">
-                <strong>Options</strong>
-                <select #SelectMailOption class="custom-select form-control"     (change)="ChangeMailOption(SelectMailOption.value)">
-                    <option value="">Selecect</option>
-                    <ng-container *ngFor="let letOption of MailReturnedOptions">
-                        <option  [value]="letOption.id">{{letOption.label}}</option>
-                      </ng-container>
-                </select>
-            </div>
+        <div *ngIf="MailRetunred"  fxLayout="row" fxLayoutGap="5px">
+            <mat-form-field  appearance="fill" fxFlex>
+                <mat-label>Options</mat-label>
+                <mat-select #SelectMailOption formControlName="SelectMailOption"  (selectionChange)="ChangeMailOption(SelectMailOption.value)">
+                    <mat-option  *ngFor="let letOption of MailReturnedOptions" [value]="letOption.id">
+                        {{letOption.label}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <strong>Note</strong>                    
-                <textarea formControlName="noteText" class="form-control" rows="5" >
-                </textarea>
-                <input type="hidden" formControlName="acctID" >
-            </div>
+        <div fxLayout="row" fxLayoutGap="5px">
+            <mat-form-field appearance="fill" fxFlex>
+                <mat-label>Note</mat-label>
+                <textarea matInput formControlName="noteText"  rows="5"></textarea>
+            </mat-form-field>
         </div>    
-        <div class="row">
+        <div fxLayout="row" fxLayoutGap="5px">
             <div class="col-md-12">
                 <mat-checkbox (change)="setEditStatus($event.checked)" class="example-margin" formControlName="EditStatus">Edit status!</mat-checkbox>
             </div>
         </div>    
-        <div class="col-md-12"  *ngIf="EditStatus">
-            <strong>Status</strong>
-            <select  formControlName="statusCode" class="custom-select form-control" >
-                <option >Selecect</option>
-                <option *ngFor="let letStatus of _Status" [value]="letStatus.statusCode">{{letStatus.statusCode}} -- {{letStatus.description}}</option>
-            </select>
+        <div fxLayout="row" fxLayoutGap="5px"  *ngIf="EditStatus">
+            <mat-form-field  appearance="fill" fxFlex>
+                <mat-label>Status</mat-label>
+                <mat-select #SelectMailOption formControlName="statusCode"  >
+                    <mat-option *ngFor="let letStatus of _Status" [value]="letStatus.statusCode">
+                        {{letStatus.statusCode}} -- {{letStatus.description}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
         </div>
     </div>
     <div mat-dialog-actions>
+        <input type="hidden" formControlName="acctID" >
         <button type="submit" mat-stroked-button color="primary">Save</button>
         <button type="button" mat-stroked-button color="accent" mat-dialog-close>Cancel</button>
     </div>

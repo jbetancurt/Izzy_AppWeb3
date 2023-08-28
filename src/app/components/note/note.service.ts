@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Note } from './';
 import { LoginService } from '../login/login.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,8 @@ import { LoginService } from '../login/login.service';
 
 export class NoteService {
   _Note? : Note[];
-  lstNotes = '/api/Notes/list';
-  urlPage = '/api/Notes';
+  lstNotes = environment.apiUrl + '/api/Notes/list';
+  urlPage = environment.apiUrl + '/api/Notes';
   httpOptions = { headers : this.loginService.GetHeaters()};
 
   constructor(private httpClient : HttpClient, private loginService : LoginService) { }

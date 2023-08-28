@@ -3,14 +3,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Account } from './';
 import { LoginService } from '../login/login.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
   _Account? : Account[];
-  urlPage = '/api/Account';
-  urlPageXProject = '/api/AccountByProyect';
+  urlPage = environment.apiUrl + '/api/Account';
+  urlPageXProject = environment.apiUrl + '/api/AccountByProyect';
   httpOptions = { headers : this.loginService.GetHeaters()};
 
   constructor(

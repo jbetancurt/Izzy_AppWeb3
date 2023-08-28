@@ -1,0 +1,25 @@
+<table mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="requestID" >
+        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Id </strong></th>
+        <td mat-cell *matCellDef="let element"> {{element.requestID}} </td>
+    </ng-container>
+    <ng-container matColumnDef="letterCode" >
+        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Code </strong></th>
+        <td mat-cell *matCellDef="let element"> {{element.letterCode}} </td>
+    </ng-container>
+    <ng-container matColumnDef="acctID" >
+        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Account # </strong></th>
+        <td mat-cell *matCellDef="let element"> {{element.acctID}} </td>
+    </ng-container>
+    <ng-container matColumnDef="letterDate" >
+        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Date to Send </strong></th>
+        <td mat-cell *matCellDef="let element"> {{element.letterDate | date:'mediumDate' }} </td>
+    </ng-container>
+    <ng-container matColumnDef="userName" >
+        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> User </strong></th>
+        <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"> </tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Select pagePayer of _Payers"></mat-paginator>

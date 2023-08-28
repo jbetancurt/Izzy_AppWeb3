@@ -1,0 +1,179 @@
+
+<div class="starter-template">
+    <div class="row">
+        <div class="col-md-12 mt-5">
+            <h1>{{ titulo }} </h1>
+        </div>
+    </div>    
+</div>
+<div class="starter-template">
+    <div class="row">
+        <div class="col-md-3">
+            <strong>Letters: </strong>
+            <select class="form-control" #SelectLetter (change)="loadReportQ(SelectClient.value, SelectLetter.value)">
+                <option value="0">SELECT A LETTER</option>
+                <option *ngFor="let item of _Letter" [value]="item.letterCode">{{ item.letterCode }} - {{ item.description| uppercase }}</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <strong>Client Code: </strong>
+            <input class="form-control" #SelectClient (change)="loadReportQ(SelectClient.value, SelectLetter.value)">
+
+        </div> 
+        <div class="col-md-2">
+            <br/>
+            <button class="btn btn-outline-primary" (click)="DownloadReportQ(SelectClient.value, SelectLetter.value)">
+                Download
+            </button>
+
+        </div>       
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-12 mt-5">
+            <div class="search-table-outter">
+                <table mat-table [dataSource]="dataSource" matSort>
+                    <ng-container matColumnDef="ClientName" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> ClientName </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.ClientName}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="acctID" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> acctID </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.acctID}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="clientRef1" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> clientRef1 </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.clientRef1}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="ptLast" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> ptLast </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.ptLast  }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="ptFirst" >
+                        <th mat-header-cell *ptFirst  mat-sort-header><strong> ptFirst </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.ptFirst}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="ptMiddle" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> ptMiddle </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.ptMiddle}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="ptAddress1" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> ptAddress1 </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.ptAddress1}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="ptAddress2" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> ptAddress2 </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.ptAddress2}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="ptCity" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> ptCity </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.ptCity}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="ptState" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> ptState </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.ptState}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="ptZip" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> ptZip </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.ptZip}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="gULast" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> gULast </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.gULast}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="guFirst" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> guFirst </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.guFirst}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="guMiddle" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> guMiddle </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.guMiddle}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="guAddress1" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> guAddress1 </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.guAddress1}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="guAddress2" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> guAddress2 </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.guAddress2}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="guCity" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> guCity </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.guCity}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="guState" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> guState </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.guState}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="guZip" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> guZip </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.guZip}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="admit" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> admit </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.admit}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="disch" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> disch </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.disch }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="balance" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> balance </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.balance}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="miscDate1" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> miscDate1 </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.miscDate1}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="promiseAmt" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> promiseAmt </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.promiseAmt}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="promiseDate" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> promiseDate </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.promiseDate}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="iDNumber" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> iDNumber </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.iDNumber}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="miscText1" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> miscText1 </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.miscText1}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="letterCode" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> letterCode </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.letterCode}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="interest" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> interest </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.interest}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="project" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> project </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.project}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="userName" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> userName </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="userExt" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> userExt </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.userExt}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="alphaStart" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> alphaStart </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.alphaStart}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="alphaEnd" >
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> alphaEnd </strong></th>
+                        <td mat-cell *matCellDef="let element"> {{element.alphaEnd}} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"> </tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Select pagePayer of _Payers"></mat-paginator>
+
+            </div>
+        </div>
+</div>

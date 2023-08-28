@@ -1,0 +1,23 @@
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            <h1>Import Account </h1>
+        </mat-panel-title>
+        <mat-panel-description>
+        </mat-panel-description>
+    </mat-expansion-panel-header>
+</mat-expansion-panel>
+<div class="row">
+    <div class="col-md-3">
+        <strong>Clients: </strong>
+        <select class="form-control" #SelectClient (change)="ChageClient(SelectClient.value)">
+            <option *ngFor="let item of allClients" [value]="item.clientCode">{{ item.clientCode }} - {{ item.name| uppercase }}</option>
+        </select>
+    </div>        
+</div>
+<div *ngFor="let key of keyNames" class="row">
+    <div class="col-md-3">
+        <strong>{{ key }}: </strong>
+        <input class="form-control" type="text" id="{{ key }}"/>
+    </div>       
+</div>

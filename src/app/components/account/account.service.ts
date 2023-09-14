@@ -24,6 +24,10 @@ export class AccountService {
   public List(Option : string, Value : string, clientCode : string): Observable<Account[]>{
     return this.httpClient.get<Account[]>(this.urlPage + '/' + Option+ '/' + Value+ '/' + clientCode, this.httpOptions);
   }
+  
+  public ListTied(Option : number, Value : string, AcctId : number): Observable<Account[]>{
+    return this.httpClient.get<Account[]>(this.urlPage + '/AccountTied/' + Option+ '/' + Value+ '/' + AcctId, this.httpOptions);
+  }
 
   public Get(id : string): Observable<Account>{ 
     let url = this.urlPage + "/" + id; 

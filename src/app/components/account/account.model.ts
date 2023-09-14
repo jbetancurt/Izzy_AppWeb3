@@ -114,3 +114,12 @@ export class Account {
 
     project? : Project = new Project;
 }
+export class AccountTied{
+    acctid: number = 0;
+    acctName: string = "";
+    proximity: string = "";
+    acctAddress: string = "";
+    acctCity: string = "";
+    dateOfBirth?: Date;
+    socialsec: string = "";
+}

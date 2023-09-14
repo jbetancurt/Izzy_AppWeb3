@@ -32,13 +32,15 @@ export class AccountComponent implements OnInit {
     if (id ?? 0 > 0){
       this.inAcctID = id ?? "0";
       this.dialog.open(
-        this.callAPIDialog
+        this.callAPIDialog, {
+          width: '80%',
+        }
       ).afterClosed()
       .subscribe(() => this.refreshParent(id));;
     }
   }
   refreshParent(id? : string){
-    //console.log(id ?? 0)
+    this.LoadAccount(id ?? "");
   }
 
   public LoadAccount(AcctID : string) : void{

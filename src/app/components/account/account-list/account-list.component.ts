@@ -6,6 +6,8 @@ import {MatPaginator } from '@angular/material/paginator';
 import {MatTableDataSource } from '@angular/material/table';
 import { MatDialog} from '@angular/material/dialog';
 import { Client, ClientService } from '../../client';
+import { AccountTiedComponent } from '../account-tied/account-tied.component';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-account-list',
@@ -13,8 +15,13 @@ import { Client, ClientService } from '../../client';
   styleUrls: ['./account-list.component.css']
 })
 export class AccountListComponent implements OnInit  {
+  SearchForm = new FormGroup({
+    SelectClient: new FormControl("0", [Validators.required]),
+    SelectOptions: new FormControl(1, [Validators.required]),
+    textValue: new FormControl("", [Validators.required]),
+  });
   dataSource!: MatTableDataSource<Account>;
-  displayedColumns: string[] = ['Client_code', 'Account', 'SSN', 'DOB','Name', 'Address', 'Phone','RP_Name', 'Status_Code', 'Service_Code','Action'];
+  displayedColumns: string[] = ['Client_code', 'clientRef1', 'Account', 'SSN', 'DOB','Name', 'Address', 'Phone','RP_Name', 'Status_Code', 'Service_Code','Action'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @Output() outAcctID: EventEmitter<string> = new EventEmitter<string>();
@@ -111,14 +118,23 @@ export class AccountListComponent implements OnInit  {
   }
 
   search(e: any): void {
+    console.log((new Date).toDateString());
+    
     let value = (<HTMLTextAreaElement>e.target).value;
     this._Accounts = this.allAccounts.filter(
         (val) => (((val.clientCode ?? "").trim() ?? "")
         + (val.projectCode ?? "")
         + (val.socialSec ?? "")
+        + (val.clientRef1 ?? "")
+        + (val.dateOfBirth  == null ? "" : this.datepipe.transform(val.dateOfBirth, 'MM/dd/yyyy'))
         + (val.firstName ?? "")
         + (val.middleName ?? "")
         + (val.lastName ?? "")
+        
+        + (val.rpFirstName ?? "")
+        + (val.rpMiddleName ?? "")
+        + (val.rpLastName ?? "")
+        
         + (val.address1 ?? "")
         + (val.address2 ?? "")
         + (val.city ?? "")
@@ -128,7 +144,7 @@ export class AccountListComponent implements OnInit  {
         + (val.rpFullName ?? "")
       ).toLowerCase().includes(value.toLowerCase().replace(/\s/g, ""))
     );
-    this.dataSource 
+    //this.dataSource 
     this.dataSource = new MatTableDataSource(this._Accounts);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -151,7 +167,9 @@ export class AccountListComponent implements OnInit  {
     if (id ?? 0 > 0){
       this.modAcctID = (id ?? 0).toString();
       this.dialog.open(
-        this.callAPIDialog
+        this.callAPIDialog, {
+          width: '80%',
+        }
       ).afterClosed()
       .subscribe(() => this.refreshParent(id));;
     }
@@ -169,9 +187,30 @@ export class AccountListComponent implements OnInit  {
     
 
   }
+
+  ShowAccountTied(id : string){
+    const dialogRef = this.dialog.open(AccountTiedComponent, {
+      width: '80%',
+    });
+    dialogRef.componentInstance.inAcctID = id;
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (dialogRef.componentInstance.AcctIDSelected > 0){
+        this.SearchForm.setValue({
+          SelectClient: "0",
+          SelectOptions: 10,
+          textValue: dialogRef.componentInstance.AcctIDSelected.toString(),
+         
+        });
+        this.LoadAccounts("10", dialogRef.componentInstance.AcctIDSelected.toString(), "0");
+      
+      }
+      
+    });
+  }
   
   public ChageClient(clientCode : String, optios : string, value : String) : void{
-    this.searchValue = '';
+    //this.searchValue = '';
     this.disabledButton = value == "" || optios == '';
     this._Accounts = []; 
     this.allAccounts = [];

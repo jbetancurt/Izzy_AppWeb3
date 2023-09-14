@@ -1,45 +1,52 @@
-<div fxLayout="row" fxLayoutGap="5px">
+<form [formGroup]="SearchForm" (ngSubmit)="LoadAccounts(SelectOptions.value, textValue.value, SelectClient.value)" fxLayout="row" fxLayoutGap="5px">
     <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
         <mat-label>Clients: </mat-label>
-        <mat-select #SelectClient (selectionChange)="ChageClient(SelectClient.value, SelectOptions.value, textValue.value)">
+        <mat-select #SelectClient id="SelectClient" name="SelectClient" formControlName="SelectClient" (selectionChange)="ChageClient(SelectClient.value, SelectOptions.value, textValue.value)" >
             <mat-option value="0">ALL CLIENT</mat-option>
             <mat-option *ngFor="let item of allClients" [value]="item.clientCode">{{ item.clientCode }} - {{ item.name| uppercase }}</mat-option>
         </mat-select>
     </mat-form-field>
     <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
         <mat-label>Search by: </mat-label>
-        <mat-select #SelectOptions (selectionChange)="ChageOptions(SelectClient.value, SelectOptions.value, textValue.value)">
+        <mat-select #SelectOptions  id="SelectOptions" name="SelectOptions" formControlName="SelectOptions" (selectionChange)="ChageOptions(SelectClient.value, SelectOptions.value, textValue.value)">
             <mat-option *ngFor="let item of listOption" [value]="item.value">{{ item.label | uppercase }}</mat-option>
         </mat-select>
     </mat-form-field>
     
     <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
         <mat-label>Write a value: </mat-label>
-        <input matInput #textValue name="textValue" [(ngModel)]="searchValue" (keyup)="ChageValues(SelectClient.value, SelectOptions.value, textValue.value)">
+        <input matInput #textValue id="textValue" name="textValue" formControlName="textValue" [(ngModel)]="searchValue" (keyup)="ChageValues(SelectClient.value, SelectOptions.value, textValue.value)">
     </mat-form-field>
     
       <button style="height: max(56px)" appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex mat-button color="primary" [disabled]="disabledButton"  
         (click)="LoadAccounts(SelectOptions.value, textValue.value, SelectClient.value)" style="height: 36px">
             Search
       </button>
-
-</div>
+</form>
   
 
 <hr>
 <form>
             
-    <mat-form-field fxFlex>
+    <mat-form-field fxFlex *ngIf="dataSource != null && allAccounts.length > 0">
         <mat-label>Type some text to filter the result: </mat-label>
         <input matInput #textValue name="searchTerm" [(ngModel)]="searchTerm" (input)="search($any($event))">
     </mat-form-field>
 </form>
 
 
-<table mat-table [dataSource]="dataSource" matSort>
+<table mat-table [dataSource]="dataSource" matSort >
     <ng-container matColumnDef="Client_code" >
         <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Client Code </strong></th>
         <td mat-cell *matCellDef="let element"> {{element.clientCode}}-{{element.projectCode}} </td>
+    </ng-container>
+    <ng-container matColumnDef="clientRef1" >
+        <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Client Ref </strong></th>
+        <td 
+            mat-cell *matCellDef="let element"> {{element.clientRef1}} 
+            <mat-icon *ngIf="element.clientRef1" [cdkCopyToClipboard]="element.clientRef1" matTooltip="{{ element.clientRef1 }}">link</mat-icon>
+        </td>
+        
     </ng-container>
     <ng-container matColumnDef="Account" >
         <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Account # </strong></th>
@@ -126,6 +133,9 @@
                 <a type="button" mat-stroked-button color="primary" matTooltip="Edit Info" (click)="ChargeForm(element.acctID)">
                     <mat-icon>edit</mat-icon>
                 </a>    
+                <a type="button" mat-stroked-button color="primary" matTooltip="Search Tied" (click)="ShowAccountTied(element.acctID)">
+                    <mat-icon>group</mat-icon>
+                </a>  
 
             </mat-button-toggle-group>
         </td>

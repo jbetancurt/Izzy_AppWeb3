@@ -16,11 +16,15 @@ export class SpinnerComponent    {
     public spinnerHandler: LoadingIndicatorService,
     private cdr: ChangeDetectorRef
   ) {
+  }
+  
+  ngOnInit(): void {
     this.spinnerHandler.showSpinner.subscribe(this.showSpinner.bind(this));
   }
 
   showSpinner = (state: boolean): void => {
     this.spinnerActive = state;
+    this.cdr.detectChanges();
   };
   
   ngAfterContentChecked(): void {

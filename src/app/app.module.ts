@@ -45,6 +45,7 @@ import { PagesComponent } from './pages/pages/pages.component';
 import { SpinnerComponent } from './Interceptors/spinner/spinner.component';
 import { HttpLoadingInterceptor } from './Interceptors/http-loading.interceptor';
 import { DemographicComponent } from './components/account/demographic/demographic.component';
+import { AccountTiedComponent } from './components/account/account-tied/account-tied.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { DemographicComponent } from './components/account/demographic/demograph
     PagesComponent,
     MenuComponent,
     SpinnerComponent,
-    DemographicComponent
+    DemographicComponent,
+    AccountTiedComponent
   ],
   imports: [
     BrowserModule,

@@ -223,7 +223,7 @@ export class NoteEditComponent implements OnInit {
       let latest_date =this.datepipe.transform(this.letterDate, 'MM/dd/yyyy');
       this.objNote.noteText = this.objAccount.statusCode + " STATUS CHANGED FROM " + " TO " + noteFG.statusCode;
       this.objAccount.statusCode = noteFG.statusCode;
-      alert(noteFG.acctID);
+      console.log(noteFG.statusCode);
       this.saveAccount(this.objAccount);
       this.saveNote(this.objNote);
     }

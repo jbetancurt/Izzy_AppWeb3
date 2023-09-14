@@ -63,7 +63,9 @@ export class PayerComponent implements OnInit {
   
   openWindowAddPayer(content : any, inPayer : Payer) {
     this.SetFormPayer(inPayer);
-    this.modalService.open(content);
+    this.modalService.open(content, {
+      width: '80%',
+    });
   }
   public SetFormPayer(inPayer :  Payer){
     this.addPayerFormGroup = this.formBuilder.group({      

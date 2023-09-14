@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Login, LoginService } from './index'
+import { Login, LoginService } from './index';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,7 @@ export class LoginComponent implements OnInit {
   isLoginFailed = false;
   errorMessage = '';
   role: string = "";
+  strpUrl = environment.apiUrl;
   Nombre = '';
   form! : UntypedFormGroup;
   private formSubmitAttempt: boolean = false;

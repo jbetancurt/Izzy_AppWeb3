@@ -1,0 +1,68 @@
+<h1 mat-dialog-title>Account # {{ inAcctID }}        
+    <span class="menu-spacer"></span>
+    <button mat-stroked-button class="btn-rigth" color="accent" mat-dialog-close>
+        <span aria-hidden="true">&times;</span>
+    </button>
+</h1>
+<div mat-dialog-content>
+    <form [formGroup]="reactiveForm" (ngSubmit)="searchSelectionChange(textOption.value)">
+            
+        <mat-form-field fxFlex>
+            <mat-label>Search by: </mat-label>
+            <mat-select #textOption id="textOption" name="textOption" formControlName="textOption" (selectionChange)="searchSelectionChange($any($event).value)">
+                <mat-option *ngIf="AccountObj.socialSec" value=1> SSN </mat-option>
+                <mat-option value=2> NAME </mat-option>
+                <mat-option value=3> SOUNDED </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </form>
+    <hr>
+    <table mat-table [dataSource]="dataSource" matSort >        
+        <ng-container matColumnDef="acctid" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Account Id </strong></th>
+            <td mat-cell *matCellDef="let element"> {{element.acctid}} </td>
+        </ng-container>
+        <ng-container matColumnDef="acctName" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Name </strong></th>
+            <td mat-cell *matCellDef="let element"> {{element.acctName}} </td>
+        </ng-container>
+        <ng-container matColumnDef="proximity" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Proximity </strong></th>
+            <td mat-cell *matCellDef="let element"> {{element.proximity}} </td>
+        </ng-container>
+        <ng-container matColumnDef="acctAddress" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Address 1 / 2 </strong></th>
+            <td mat-cell *matCellDef="let element"> {{element.acctAddress}} </td>
+        </ng-container>
+        <ng-container matColumnDef="acctCity" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> City </strong></th>
+            <td mat-cell *matCellDef="let element"> {{element.acctCity}} </td>
+        </ng-container>
+        <ng-container matColumnDef="socialsec" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> SSN </strong></th>
+            <td mat-cell *matCellDef="let element"> {{element.socialsec}} </td>
+        </ng-container>
+        <ng-container matColumnDef="dateOfBirth" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> DOB </strong></th>
+            <td mat-cell *matCellDef="let element"> {{element.dateOfBirth}} </td>
+        </ng-container>
+        <ng-container matColumnDef="acction"  >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong>  </strong></th>
+            <td mat-cell *matCellDef="let element">  
+                <button mat-stroked-button color="primary" (click)="SetAccountId(element.acctid)">
+                    <mat-icon  matTooltip="Go to Account # {{element.acctid}}">account_circle</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"> </tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data matching the filter "{{this.inAcctID}}"</td>
+        </tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Select pagePayer of _Payers"></mat-paginator>
+
+    
+    
+</div>
+

@@ -10,6 +10,7 @@ export class AdvancedSearchComponent implements OnInit {
   public OpenInfo = false;
   public modAcctID = "";
   public displayAccount = false;
+  title : string = "Advance Search";
   setAcctID(vAcctID: string) {
     this.modAcctID = vAcctID;
     this.displayAccount = !this.displayAccount;

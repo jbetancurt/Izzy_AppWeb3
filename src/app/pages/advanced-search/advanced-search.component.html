@@ -3,10 +3,11 @@
     (opened)="displayAccount = false"
     (closed)="displayAccount = true">
       <mat-expansion-panel-header>
-        <mat-panel-title>
-            <h1>Advance Search </h1>
+        <mat-panel-title appearance="fill" fxFlex>
+            <h1 fxFlex>{{title}} </h1>
         </mat-panel-title>
         <mat-panel-description>
+          <span *ngIf="displayAccount"> <mat-icon>mouse</mat-icon> Click Here To Return To Panel Search Result <mat-icon>mouse</mat-icon></span>
             
         </mat-panel-description>
       </mat-expansion-panel-header>

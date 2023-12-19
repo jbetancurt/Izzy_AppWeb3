@@ -158,10 +158,12 @@ export class AccountListComponent implements OnInit  {
   }
 
   ShowInfo(id? : number){
+    
     if (id ?? 0 > 0){
       this.outAcctID.emit((id ?? 0).toString());
     }
   }
+  
 
   ChargeForm(id? : number){
     if (id ?? 0 > 0){

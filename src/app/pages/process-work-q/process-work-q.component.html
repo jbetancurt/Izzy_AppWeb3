@@ -1,1 +1,254 @@
-<p>process-work-q works!</p>
+<mat-accordion>
+    <mat-expansion-panel [expanded]="!displayAccount"  
+    (opened)="displayAccount = false"
+    (closed)="displayAccount = true">
+      <mat-expansion-panel-header>
+        <mat-panel-title appearance="fill" fxFlex>
+            <h1 fxFlex>{{title}} </h1>
+        </mat-panel-title>
+        <mat-panel-description>
+          <span *ngIf="displayAccount"> <mat-icon>mouse</mat-icon> Click Here To Return To Panel Search Result <mat-icon>mouse</mat-icon></span>
+            
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <form [formGroup]="SearchForm" (ngSubmit)="LoadAccounts()" fxLayout="row" fxLayoutGap="5px">
+        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+            <mat-label>Clients or Master: </mat-label>
+            <mat-select #cLientOrMaster id="cLientOrMaster" name="cLientOrMaster" formControlName="cLientOrMaster" >
+                <mat-option value="0">USE CLIENT</mat-option>
+                <mat-option value="1">USE MASTER</mat-option>
+            </mat-select>
+        </mat-form-field>
+        
+        <mat-form-field *ngIf="cLientOrMaster.value == '0'" appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+            <mat-label>CLient Code: </mat-label>
+            
+            <mat-select #clientCode id="clientCode" name="clientCode" formControlName="clientCode" (selectionChange)="ChangeMasterClient(clientCode.value)">
+                <mat-option value="0">ALL CLIENT</mat-option>
+                <mat-option *ngFor="let item of allClients" [value]="item.clientCode">{{ item.clientCode }} - {{ item.name| uppercase }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        
+        <mat-form-field *ngIf="cLientOrMaster.value == '1'" appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+            <mat-label>Master Code: </mat-label>
+            <mat-select #masterCode id="masterCode" name="masterCode" formControlName="masterCode" (selectionChange)="ChangeMasterClient(masterCode.value)">
+                <mat-option value="0">ALL CLIENT</mat-option>
+                <mat-option *ngFor="let item of allClientsMaster" [value]="item.clientCode">{{ item.clientCode }} - {{ item.name| uppercase }}</mat-option>
+            </mat-select>           
+        </mat-form-field>
+        
+        <mat-form-field  appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+            <mat-label>Project Code: </mat-label>
+            <mat-select #projectCode id="projectCode" name="projectCode" formControlName="projectCode" multiple>
+                <mat-option value="0">ALL PROJECT</mat-option>
+                <mat-option *ngFor="let item of _Project" [value]="item.projectCode"> {{ item.name| uppercase }}</mat-option>
+            </mat-select>           
+        </mat-form-field>
+        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+            <mat-label>CB Date  Trought: </mat-label>
+            <input matInput #nextReview id="nextReview" name="nextReview" formControlName="nextReview" >
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+            <mat-label>Financial Class: </mat-label>
+            <input matInput #finClassCode id="finClassCode" name="finClassCode" formControlName="finClassCode" >
+        </mat-form-field>
+        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+            <mat-label>Placement Date: </mat-label>
+            <input matInput #placementDate id="placementDate" name="placementDate" formControlName="placementDate" >
+        </mat-form-field>
+        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+            <mat-label>Status Type: </mat-label>
+            
+            <mat-select #statusCode id="statusCode" name="statusCode" formControlName="statusCode" multiple>                
+                <mat-option *ngFor="let item of _Status" [value]="item.statusCode"> {{ item.statusCode| uppercase }} - {{ item.description| uppercase }}</mat-option>
+            </mat-select> 
+        </mat-form-field>
+    
+        <button style="height: max(56px)" appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex mat-button color="primary"  
+        style="height: 36px">
+            Search
+        </button>
+    </form>
+    
+    <table mat-table [dataSource]="dataSource" matSort >
+        <ng-container matColumnDef="Account" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Account # </strong></th>
+            <td mat-cell *matCellDef="let element"> 
+                {{element.acctID}}
+                <mat-icon *ngIf="element.acctID" [cdkCopyToClipboard]="element.acctID" matTooltip="{{ element.acctID }}">link</mat-icon>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="projectCode" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Project Code </strong></th>
+            <td mat-cell *matCellDef="let element"> 
+                {{element.projectCode}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="Client_code" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Client Code </strong></th>
+            <td mat-cell *matCellDef="let element"> {{element.clientCode}} </td>
+        </ng-container>
+        <ng-container matColumnDef="clientRef1" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Client Ref </strong></th>
+            <td 
+                mat-cell *matCellDef="let element"> {{element.clientRef1}} 
+                <mat-icon *ngIf="element.clientRef1" [cdkCopyToClipboard]="element.clientRef1" matTooltip="{{ element.clientRef1 }}">link</mat-icon>
+            </td>
+            
+        </ng-container>
+        <ng-container matColumnDef="fromDate" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> From Date </strong></th>
+            <td mat-cell *matCellDef="let element"> 
+                {{element.fromDate | date :'MM/dd/YYYY' }}
+                <mat-icon *ngIf="element.fromDate" [cdkCopyToClipboard]="datepipe.transform(element.fromDate, 'MM/dd/yyyy') ?? ''"
+                     matTooltip="{{element.fromDate | date :'MM/dd/YYYY' }}">link</mat-icon>    
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="balanceDue" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Balance </strong></th>
+            <td mat-cell *matCellDef="let element"> 
+                {{element.balanceDue }}
+                
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="Status_Code" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Status Code </strong></th>
+            <td mat-cell *matCellDef="let element"> 
+                <p>
+                    <button mat-mini-fab *ngIf="element.statusCode === '800'" color="primary">{{element.statusCode}}</button>
+                    <button mat-mini-fab *ngIf="element.statusCode === '900'" color="warn">{{element.statusCode}}</button>
+                    <button mat-stroked *ngIf="element.statusCode != '800' && element.statusCode != '900'">{{element.statusCode}}</button>
+                </p>
+            </td>
+        </ng-container>        
+        <ng-container matColumnDef="nextReview" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> CB Date </strong></th>
+            <td mat-cell *matCellDef="let element"> 
+                {{element.nextReview | date :'MM/dd/YYYY' }}
+                <mat-icon *ngIf="element.nextReview" [cdkCopyToClipboard]="datepipe.transform(element.nextReview, 'MM/dd/yyyy') ?? ''"
+                     matTooltip="{{element.nextReview | date :'MM/dd/YYYY' }}">link</mat-icon>    
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="SSN" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> SSN </strong></th>
+            <td mat-cell *matCellDef="let element"> 
+                {{element.socialSecMask }}
+                <mat-icon *ngIf="element.socialSec" [cdkCopyToClipboard]="element.socialSec" matTooltip="{{element.socialSec }}">link</mat-icon>    
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="DOB" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> DOB </strong></th>
+            <td mat-cell *matCellDef="let element"> 
+                {{element.dateOfBirth | date :'MM/dd/YYYY' }}
+                <mat-icon *ngIf="element.dateOfBirth" [cdkCopyToClipboard]="datepipe.transform(element.dateOfBirth, 'MM/dd/yyyy') ?? ''"
+                     matTooltip="{{element.dateOfBirth | date :'MM/dd/YYYY' }}">link</mat-icon>    
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="gender" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Gender </strong></th>
+            <td mat-cell *matCellDef="let element"> 
+                {{element.gender  }}   
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="admitAge" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Admit Age </strong></th>
+            <td mat-cell *matCellDef="let element" > 
+                {{ GetAgeFrom(element.fromDate,element.dateOfBirth) }}   
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="Name" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Name </strong></th>
+            <td mat-cell *matCellDef="let element"> 
+                <label *ngIf="element.firstName">
+                    {{element.firstName}}
+                </label> 
+                <label *ngIf="element.middleName"> 
+                    &nbsp;{{element.middleName}}
+                </label> 
+                <label *ngIf="element.lastName"> 
+                    &nbsp;{{element.lastName}}
+                </label>     
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="Address" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Address </strong></th>
+            <td mat-cell *matCellDef="let element"> 
+                <label>Address: {{element.address1}}</label>
+                    <br>
+                    <span *ngIf="element.address2">
+                        <label>&nbsp;Address 2: {{element.address2}}</label>
+                        <hr />
+                    </span> 
+                    
+                    {{element.city}} - {{element.state}} - {{element.zip}}
+    
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="Phone" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Phone </strong></th>
+            <td mat-cell *matCellDef="let element"> {{element.phone1}} </td>
+        </ng-container>
+        <ng-container matColumnDef="RP_Name" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> RP Name </strong></th>
+            <td mat-cell *matCellDef="let element"> {{element.rpFullName}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Service_Code" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong> Service Code </strong></th>
+            <td mat-cell *matCellDef="let element"> {{element.serviceCode}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Action" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header><strong>  </strong></th>
+            <td mat-cell *matCellDef="let element"> 
+                <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+                    <a type="button" mat-stroked-button color="primary" matTooltip="View Info" (click)="ShowInfo(element.acctID)">
+                        <mat-icon>remove_red_eye</mat-icon>
+                    </a>
+                    <a type="button" mat-stroked-button color="primary" matTooltip="Edit Info" (click)="ChargeForm(element.acctID)">
+                        <mat-icon>edit</mat-icon>
+                    </a>    
+                    <a type="button" mat-stroked-button color="primary" matTooltip="Search Tied" (click)="ShowAccountTied(element.acctID)">
+                        <mat-icon>group</mat-icon>
+                    </a>  
+    
+                </mat-button-toggle-group>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"> </tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data matching</td>
+        </tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" aria-label="Select pagePayer of _Payers"></mat-paginator>
+    
+    
+    <ng-template #callAPIDialog>
+        <app-account-form [inAcctID]= modAcctID >
+        </app-account-form>
+    </ng-template>
+
+
+
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="displayAccount"  *ngIf="modAcctID != ''"
+    (opened)="displayAccount = true"
+    (closed)="displayAccount = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h1>Account Info</h1>
+        </mat-panel-title>
+        <mat-panel-description>
+            
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+        <app-account [inAcctID]= modAcctID *ngIf="displayAccount === true"></app-account>
+      
+      
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  
+
+  
+  

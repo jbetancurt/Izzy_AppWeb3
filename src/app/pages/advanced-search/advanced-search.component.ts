@@ -3,14 +3,14 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-advanced-search',
   templateUrl: './advanced-search.component.html',
-  styleUrls: ['./advanced-search.component.css']
+  styleUrls: ['./advanced-search.component.scss']
 })
 export class AdvancedSearchComponent implements OnInit {
   tabLoadTimes: Date[] = [];
   public OpenInfo = false;
   public modAcctID = "";
   public displayAccount = false;
-  title : string = "Advance Search";
+  title : string = "Advanced Search";
   setAcctID(vAcctID: string) {
     this.modAcctID = vAcctID;
     this.displayAccount = !this.displayAccount;
@@ -27,6 +27,7 @@ export class AdvancedSearchComponent implements OnInit {
 
     return this.tabLoadTimes[index];
   }
+  
 
   ngOnInit(): void {
   }

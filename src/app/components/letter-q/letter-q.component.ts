@@ -8,7 +8,7 @@ import { LetterQ, LetterQService } from '.';
 @Component({
   selector: 'app-letter-q',
   templateUrl: './letter-q.component.html',
-  styleUrls: ['./letter-q.component.css']
+  styleUrls: ['./letter-q.component.scss']
 })
 export class LetterQComponent implements OnInit {
   _LetterQ : LetterQ[] = [];
@@ -25,7 +25,7 @@ export class LetterQComponent implements OnInit {
 
   ngOnInit(): void {
     this.LetterQ(this.inAcctID);
-    console.log(this.inAcctID);
+    //console.log(this.inAcctID);
   }
   public LetterQ(acctID : string): void{
     this._LetterQ = []; 

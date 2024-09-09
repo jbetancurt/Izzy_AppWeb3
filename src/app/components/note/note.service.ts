@@ -14,11 +14,13 @@ export class NoteService {
   _Note? : Note[];
   lstNotes = environment.apiUrl + '/api/Notes/list';
   urlPage = environment.apiUrl + '/api/Notes';
+  
   httpOptions = { headers : this.loginService.GetHeaters()};
 
   constructor(private httpClient : HttpClient, private loginService : LoginService) { }
 
   public async list(acctID : string) :Promise<Observable<Note[]>>{
+    console.log(1);
     return this.httpClient.get<Note[]>(this.lstNotes + '/' + acctID, this.httpOptions);
   }
   public List(acctID : string): Observable<Note[]>{
@@ -34,7 +36,7 @@ export class NoteService {
   }
 
   public Create(_Note : Note): Observable<Note>{ 
-    console.log(_Note); 
+    //console.log(_Note); 
       
     return this.httpClient.post<Note>(this.urlPage, _Note, this.httpOptions);
   }

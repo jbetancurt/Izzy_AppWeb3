@@ -2,7 +2,7 @@
   <mat-toolbar color="primary">
     <mat-toolbar-row>
       <button mat-icon-button *ngIf="isLogged">
-        <mat-icon  (click)="sidenav.toggle()">menu</mat-icon>
+        <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
       </button>
       <h1>
         <app-brand></app-brand>
@@ -11,50 +11,126 @@
       <div>
         <app-menu [inTipoMenu]="0"></app-menu>
       </div>
+      <div style="padding: 1rem">
+        <mat-icon class="mr-8">brightness_5</mat-icon>
+        <mat-slide-toggle [formControl]="toggleControl" class="mr-8">
+        </mat-slide-toggle>
+        <mat-icon>bedtime</mat-icon>
+      </div>
       <span class="menu-spacer"></span>
       <span style="font-size: 12px;">{{ VarNombreUser }}</span>
-      </mat-toolbar-row>
+    </mat-toolbar-row>
   </mat-toolbar>
   <mat-sidenav-container>
     <mat-sidenav #sidenav>
       <mat-nav-list *ngIf="isLogged">
-  
+
         <app-menu [inTipoMenu]="1"></app-menu>
-        
+
         <a mat-list-item (click)="loginService.signOut()" href="" mat-list-item>
           <mat-icon>exit_to_app</mat-icon>
           Close
         </a>
-        
+
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
       <div style="height: 88vh;">
-        <div class="row">
-          <div class="col-md-1">
-  
-          </div>
-          <div class="col-md-10">
-            <router-outlet></router-outlet>
-          </div>
-          <div class="col-md-1">
-          </div>
+        <div class="ContentCards">
+          <mat-drawer-container class="example-container" layout fullscreen>
+            <mat-drawer #drawerLeft mode="side" position="start">
+              <div>
+                <mat-card>
+                  <mat-card-content>
+                    <app-process-work-q></app-process-work-q>
+
+                  </mat-card-content>
+                  <mat-card-actions align="end">
+                    <button mat-stroked-button color="primary" (click)="closeshowProcessWQ()"> close </button>
+                  </mat-card-actions>
+                </mat-card>
+              </div>
+
+            </mat-drawer>
+            <mat-drawer-content>
+
+              <mat-drawer-container class="example-container" layout fullscreen>
+                <mat-drawer #drawerRight mode="side" position="end">
+                  <mat-card>
+                    <mat-card-content>
+                      <app-advanced-search></app-advanced-search>
+                    </mat-card-content>
+                    <mat-card-actions align="end">
+                      <button class="btn-rigth" mat-stroked-button color="primary" (click)="closeshowAdvanceSearch()">
+                        Close </button>
+                    </mat-card-actions>
+                  </mat-card>
+                </mat-drawer>
+                <mat-drawer-content>
+
+
+
+                  <mat-card [ngStyle]="{display: showAccountInfo1 ? 'block' : 'none'}">
+                    <mat-card-content>
+                      <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
+                        <mat-tab *ngFor="let tab of tabs; index as i"
+                          [label]=" tab.firstName + ' ' + tab.lastName + ' - ' + tab.clientRef1 + '  Status Code: ' + tab.statusCode">
+                          <button class="btn-rigth" mat-raised-button [disabled]="tabs.length === 1"
+                            (click)="removeTab(i)">
+                            CLOSE {{tab.firstName + ' ' + tab.lastName + ' - ' + tab.clientRef1}}
+                          </button>
+                          <br>
+                          <br>
+                          <app-account *ngIf="tab != null" [inAcctID]="validateString(tab.acctID)"></app-account>
+                        </mat-tab>
+                      </mat-tab-group>
+
+                    </mat-card-content>
+                    <mat-card-actions align="end">
+                      <button class="btn-rigth" mat-stroked-button color="primary" (click)="closeshowAccountInfo1()">
+                        Close </button>
+                    </mat-card-actions>
+                  </mat-card>
+
+
+                </mat-drawer-content>
+              </mat-drawer-container>
+
+
+
+            </mat-drawer-content>
+          </mat-drawer-container>
+
+
+
+
+
+
+
         </div>
+
+        <router-outlet></router-outlet>
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
   <mat-progress-spinner [mode]="'indeterminate'" *ngIf="loading$ | async"></mat-progress-spinner>
 </span>
+
+
 <div *ngIf="!isLogged" style="height: 88vh; background-color: dimgrey;">
   <div class="row">
     <div class="col-md-1">
 
     </div>
     <div class="col-md-10">
-      <router-outlet></router-outlet>
+
+      <router-outlet>
+      </router-outlet>
+
     </div>
     <div class="col-md-1">
     </div>
   </div>
 </div>
+
 <app-spinner></app-spinner>

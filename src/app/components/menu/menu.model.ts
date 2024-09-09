@@ -3,4 +3,5 @@ export class Menu {
     idPadre : number = 0;
     value? : string;
     name? : string;
+    isAction? : boolean = false;
 }

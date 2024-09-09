@@ -10,6 +10,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 import { AccountComponent } from './components/account/account.component';
@@ -46,6 +47,7 @@ import { SpinnerComponent } from './Interceptors/spinner/spinner.component';
 import { HttpLoadingInterceptor } from './Interceptors/http-loading.interceptor';
 import { DemographicComponent } from './components/account/demographic/demographic.component';
 import { AccountTiedComponent } from './components/account/account-tied/account-tied.component';
+import { DragAndDropContentComponent } from './components/others/drag-and-drop-content/drag-and-drop-content.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +92,9 @@ import { AccountTiedComponent } from './components/account/account-tied/account-
     FlexLayoutModule,
     FormsModule, 
     ReactiveFormsModule,
-    ClipboardModule
+    ClipboardModule,
+    DragDropModule,
+    DragAndDropContentComponent
   ],
   providers: [
     DatePipe,

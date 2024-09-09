@@ -26,6 +26,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 
 
@@ -57,7 +58,8 @@ import { MatBadgeModule } from '@angular/material/badge';
     MatTooltipModule,
     MatButtonToggleModule,
     MatChipsModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatSlideToggleModule
   ],
   exports: [
     MatSidenavModule,
@@ -85,7 +87,8 @@ import { MatBadgeModule } from '@angular/material/badge';
     MatTooltipModule,
     MatButtonToggleModule,
     MatChipsModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatSlideToggleModule
   ]
 })
 export class MaterialModule { }

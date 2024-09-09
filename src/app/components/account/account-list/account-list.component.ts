@@ -8,11 +8,12 @@ import { MatDialog} from '@angular/material/dialog';
 import { Client, ClientService } from '../../client';
 import { AccountTiedComponent } from '../account-tied/account-tied.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { StatusService } from '../../status';
 
 @Component({
   selector: 'app-account-list',
   templateUrl: './account-list.component.html',
-  styleUrls: ['./account-list.component.css']
+  styleUrls: ['./account-list.component.scss']
 })
 export class AccountListComponent implements OnInit  {
   SearchForm = new FormGroup({
@@ -21,7 +22,8 @@ export class AccountListComponent implements OnInit  {
     textValue: new FormControl("", [Validators.required]),
   });
   dataSource!: MatTableDataSource<Account>;
-  displayedColumns: string[] = ['Client_code', 'clientRef1', 'Account', 'SSN', 'DOB','Name', 'Address', 'Phone','RP_Name', 'Status_Code', 'Service_Code','Action'];
+  displayedColumns: string[] = ['Account', 'Name', 'Client_code', 'clientRef1', 'fromDate', 'balanceDue', 'Status_Code', 'SSN', 'DOB','Worked','Action'];
+  //displayedColumns: string[] = ['Client_code', 'clientRef1', 'Account', 'SSN', 'DOB','Name', 'Address', 'Phone','RP_Name', 'Status_Code', 'Service_Code','Action'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @Output() outAcctID: EventEmitter<string> = new EventEmitter<string>();
@@ -29,6 +31,7 @@ export class AccountListComponent implements OnInit  {
   allAccounts : Account[] = [];
   _Clients : Client[] = [];
   allClients : Client[] = [];
+  lstWorked : number[] = [];
   searchTerm: string = "";
   page = 1;
   pageSize = 10;
@@ -76,7 +79,8 @@ export class AccountListComponent implements OnInit  {
     public datepipe: DatePipe,
     public dialog: MatDialog, 
     private _ClientService : ClientService,
-    private _AccountService : AccountService
+    private _AccountService : AccountService,
+    private statusService : StatusService
   ) { }
 
   ngOnInit(): void {
@@ -87,6 +91,7 @@ export class AccountListComponent implements OnInit  {
 
     }
   }
+
 
   public ChageValues(clientCode : String, optios : string, value : String) : void{
     this.disabledButton = value == "" || optios == '';
@@ -109,7 +114,7 @@ export class AccountListComponent implements OnInit  {
   }
   public ChageOptions(clientCode : String, optios : string, value : String) : void{
     this.searchValue = '';
-    console.log(value);
+    //console.log(value);
     
     this.disabledButton = value == "" || optios == '';
     this._Accounts = [];
@@ -118,7 +123,7 @@ export class AccountListComponent implements OnInit  {
   }
 
   search(e: any): void {
-    console.log((new Date).toDateString());
+    //console.log((new Date).toDateString());
     
     let value = (<HTMLTextAreaElement>e.target).value;
     this._Accounts = this.allAccounts.filter(
@@ -156,11 +161,28 @@ export class AccountListComponent implements OnInit  {
   refreshParent(id? : number){
     //console.log(id ?? 0)
   }
+  
+  returnColor(status : string) : string{
+    return this.statusService.ColorByStatus(Number(status));
+  }
 
   ShowInfo(id? : number){
     
     if (id ?? 0 > 0){
-      this.outAcctID.emit((id ?? 0).toString());
+      //this.outAcctID.emit((id ?? 0).toString());
+      this._AccountService.accountEmit.emit(this.allAccounts.filter(x => x.acctID == id)[0]);
+      if (this.lstWorked.filter(x => x == id).length === 0){
+        this.lstWorked.push(id ?? 0);
+
+      }
+    }
+  }
+  isWorked(id :number) : boolean{
+    if (id === null){
+      return false;
+    }
+    else{
+      return this.lstWorked.filter(x => x == id).length > 0;
     }
   }
   
@@ -176,18 +198,15 @@ export class AccountListComponent implements OnInit  {
       .subscribe(() => this.refreshParent(id));;
     }
   }
-  public LoadAccounts(Option : string, Value :string, clientCode : string) : void{
+  public async LoadAccounts(Option : string, Value :string, clientCode : string) : Promise<void>{
     //this._loaderShow = true;
-    this._AccountService.List(Option,Value, clientCode).subscribe((data : Account[]) => {
+    var data = await this._AccountService.List(Option,Value, clientCode);
       this.allAccounts = data;
-        this._Accounts = data;
-        this.dataSource = new MatTableDataSource(data);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.collectionSize = data.length;         
-    });
-    
-
+      this._Accounts = data;
+      this.dataSource = new MatTableDataSource(data);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.collectionSize = data.length;
   }
 
   ShowAccountTied(id : string){
@@ -209,6 +228,20 @@ export class AccountListComponent implements OnInit  {
       }
       
     });
+  }
+
+  getAge(date : string) : string{
+    if (date !== null && date !== "") {
+      console.log(date);
+      
+      const fechaActual = new Date();
+      const tiempoDiferencia = fechaActual.getTime() - (new Date(date) ?? new Date()).getTime();
+      const edad = Math.floor(tiempoDiferencia / (1000 * 60 * 60 * 24 * 365.25));
+      return edad +''
+    } else {
+      return '';
+    }
+    
   }
   
   public ChageClient(clientCode : String, optios : string, value : String) : void{

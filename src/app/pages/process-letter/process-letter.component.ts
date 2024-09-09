@@ -9,7 +9,7 @@ import { MatDialog} from '@angular/material/dialog';
 @Component({
   selector: 'app-process-letter',
   templateUrl: './process-letter.component.html',
-  styleUrls: ['./process-letter.component.css']
+  styleUrls: ['./process-letter.component.scss']
 })
 export class ProcessLetterComponent implements OnInit {
   titulo = 'Proccess Letter';
@@ -119,7 +119,7 @@ export class ProcessLetterComponent implements OnInit {
           var link = document.createElement('a');
           link.href = window.URL.createObjectURL(this._blobFile);
           link.download = clientCode.trim() + "  " + LetterCode.trim() + ".csv";
-          console.log(link.download);
+          //console.log(link.download);
           link.click();
         
         

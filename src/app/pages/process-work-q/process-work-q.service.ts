@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { EventEmitter, Injectable, Output } from '@angular/core';
+import { Observable, lastValueFrom } from 'rxjs';
 import { Account } from 'src/app/components/account';
 import { LoginService } from 'src/app/components/login';
 import { environment } from 'src/environments/environment';
@@ -17,7 +17,9 @@ export class ProcessWorkQService {
     private httpClient : HttpClient, 
     private loginService : LoginService
     ) { }
-  public List(request :ProcessWorkQRequest): Observable<Account[]>{
-    return this.httpClient.post<Account[]>(this.urlPage, JSON.stringify(request), this.httpOptions);
+  public async List(request :ProcessWorkQRequest): Promise<Account[]>{
+    const categories$ = await this.httpClient.post<Account[]>(this.urlPage, JSON.stringify(request), this.httpOptions);
+
+    return await lastValueFrom(categories$);
   }
 }

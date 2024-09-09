@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { ProcessWorkQService } from './process-work-q.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Account } from 'src/app/components/account';
+import { Account, AccountService } from 'src/app/components/account';
 import { ProcessWorkQRequest } from './process-work-q.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -13,11 +13,12 @@ import { Status, StatusService } from 'src/app/components/status';
 import { LetterQService } from 'src/app/components/letter-q';
 import { Project, ProjectService } from 'src/app/components/project';
 import { AccountTiedComponent } from 'src/app/components/account/account-tied/account-tied.component';
+import {CdkDrag} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-process-work-q',
   templateUrl: './process-work-q.component.html',
-  styleUrls: ['./process-work-q.component.css']
+  styleUrls: ['./process-work-q.component.scss']
 })
 export class ProcessWorkQComponent implements OnInit {
   tabLoadTimes: Date[] = [];
@@ -32,9 +33,10 @@ export class ProcessWorkQComponent implements OnInit {
   public displayAccount = false;
   title = "Procces Work Q";
   allAccounts : Account[] = [];
+  workedAccounts : number[] = [];
   allAccountsFilter : Account[] = [];
   dataSource!: MatTableDataSource<Account>;
-  displayedColumns: string[] = ['Account', 'Name', 'Client_code', 'projectCode', 'clientRef1', 'fromDate', 'balanceDue', 'Status_Code', 'nextReview', 'admitAge', 'gender', 'SSN', 'DOB','Address', 'Phone','RP_Name', 'Service_Code','Action'];
+  displayedColumns: string[] = ['acctID', 'Name', 'clientCode', 'projectCode', 'clientRef1', 'fromDate', 'balanceDue', 'statusCode', 'nextReview', 'admitAge', 'gender', 'socialSec', 'dateOfBirth','address1', 'phone1','rpFullName', 'serviceCode','worked', 'Action'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   page = 1;
@@ -70,6 +72,10 @@ export class ProcessWorkQComponent implements OnInit {
     return retString;
   }
 
+  returnColor(status : string) : string{
+    return this.statusService.ColorByStatus(Number(status));
+  }
+  
   
   loadClient(): void{
     this._ClientService.List().subscribe({
@@ -98,16 +104,18 @@ export class ProcessWorkQComponent implements OnInit {
     this.displayAccount = !this.displayAccount;
     this.OpenInfo = this.displayAccount;
     //this.displayAccount = true;
-    console.log(vAcctID + "  setAcctID") ;
+    //console.log(vAcctID + "  setAcctID") ;
   }
 
   constructor(
     public datepipe: DatePipe,
     public dialog: MatDialog, 
+    private accountService : AccountService,
     private _ClientService : ClientService,
     private _StatusService : StatusService,
     private _ProjectService : ProjectService,
-    private processWorkQService : ProcessWorkQService
+    private processWorkQService : ProcessWorkQService,
+    private statusService : StatusService
   ) { }
   getTimeLoaded(index: number) {
     if (!this.tabLoadTimes[index]) {
@@ -141,14 +149,23 @@ export class ProcessWorkQComponent implements OnInit {
   }
 
   ShowInfo(id? : number){
-    console.log(id);
+    //console.log(id);
     if (id ?? 0 > 0){
-      console.log(id);
-      this.outAcctID.emit((id ?? 0).toString());
+      //console.log(id);
+      //this.accountService.outAcctID.emit((id ?? 0).toString());
+      if (this.workedAccounts.filter(x => x == id ?? 0).length < 1){
+        this.workedAccounts.push(id ?? 0);
+
+      }
+      this.accountService.accountEmit.emit(this.allAccounts.filter(x => x.acctID == id)[0]);
     }
   }
+  showWorked(id? : number) : boolean{
+    return this.workedAccounts.filter(x => x == id ?? 0).length > 0;
+  }
 
-  ShowAccountTied(id : string){
+
+  async ShowAccountTied(id : string){
     const dialogRef = this.dialog.open(AccountTiedComponent, {
       width: '80%',
     });
@@ -157,7 +174,7 @@ export class ProcessWorkQComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (dialogRef.componentInstance.AcctIDSelected > 0){
 
-        this.LoadAccounts();
+         this.LoadAccounts();
       
       }
       
@@ -197,14 +214,15 @@ export class ProcessWorkQComponent implements OnInit {
     }
   }
   
-  public LoadAccounts() : void{
+  public async LoadAccounts() : Promise<void>{
+    this.workedAccounts = [];
     let request :ProcessWorkQRequest = this.SearchForm.value as ProcessWorkQRequest;
-    console.log(request);
+    //console.log(request);
     
     //this._loaderShow = true;
 
-    this.processWorkQService.List(request).subscribe((data : Account[]) => {
-      console.log(data);
+    var data = await this.processWorkQService.List(request);
+      //console.log(data);
       
       this.allAccounts = data;
       this.allAccountsFilter = data;
@@ -212,7 +230,7 @@ export class ProcessWorkQComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.collectionSize = data.length;         
-    });
+    
   }
 
 }

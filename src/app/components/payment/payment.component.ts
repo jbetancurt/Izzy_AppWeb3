@@ -7,7 +7,7 @@ import { Payment, PaymentService } from '.';
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
-  styleUrls: ['./payment.component.css']
+  styleUrls: ['./payment.component.scss']
 })
 export class PaymentComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -25,7 +25,7 @@ export class PaymentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.inAcctID)
+    //console.log(this.inAcctID)
     this.LoadPayment(this.inAcctID);
   }
   public LoadPayment(acctID : string): void{

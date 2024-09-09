@@ -5,7 +5,7 @@ import { LoadingIndicatorService } from '../loading-indicator.service';
 @Component({
   selector: 'app-spinner',
   templateUrl: './spinner.component.html',
-  styleUrls: ['./spinner.component.css']
+  styleUrls: ['./spinner.component.scss']
 })
 export class SpinnerComponent    {
   isBusy = false;

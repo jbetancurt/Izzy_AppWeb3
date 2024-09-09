@@ -5,7 +5,7 @@ import { Client, ClientService } from '../../components/client';
 @Component({
   selector: 'app-import-accounts',
   templateUrl: './import-accounts.component.html',
-  styleUrls: ['./import-accounts.component.css']
+  styleUrls: ['./import-accounts.component.scss']
 })
 export class ImportAccountsComponent implements OnInit {
   allClients : Client[] = [];

@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   login : Login = new Login();
@@ -40,25 +40,18 @@ export class LoginComponent implements OnInit {
       }
     }
   }
-  onSubmit(): void {
+  async onSubmit() {
     if (this.form.valid) {
       this.formSubmitAttempt = true;  
       const { userName, password } = this.form.value;
       //console.log(JSON.stringify(this.login));
-      this.loginService.login(userName, password).subscribe({
-        next: data => {
-          this.loginService.saveToken(data.token);
-          this.loginService.saveUser(data.user);
-          this.isLoginFailed = false;
-          this.isLoggedIn = true;
-          this.role = this.loginService.getUser().rol.name ?? "";
-          this.reloadPage();
-        },
-        error: err => {
-          this.errorMessage = err.error.message;
-          this.isLoginFailed = true;
-        }
-      });
+      var data = await this.loginService.login(userName, password)
+      this.loginService.saveToken(data.token);
+      this.loginService.saveUser(data.user);
+      this.isLoginFailed = false;
+      this.isLoggedIn = true;
+      this.role = this.loginService.getUser().rol.name ?? "";
+      await this.reloadPage();
     }
   }
   isFieldInvalid(field: string) { // {6}
@@ -67,7 +60,7 @@ export class LoginComponent implements OnInit {
       (this.form.get(field)?.untouched && this.formSubmitAttempt)
     );
   }
-  reloadPage(): void {
+  async reloadPage(): Promise<void> {
     window.location.reload();
   }
 

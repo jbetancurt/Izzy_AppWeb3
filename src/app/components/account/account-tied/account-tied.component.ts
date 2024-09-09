@@ -8,11 +8,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { AccountService } from '../account.service';
 import { Login } from '../../login';
 import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { StatusService } from '../../status';
 
 @Component({
   selector: 'app-account-tied',
   templateUrl: './account-tied.component.html',
-  styleUrls: ['./account-tied.component.css']
+  styleUrls: ['./account-tied.component.scss']
 })
 export class AccountTiedComponent implements OnInit {
   reactiveForm = new FormGroup({
@@ -28,15 +29,15 @@ export class AccountTiedComponent implements OnInit {
   public AcctIDSelected = 0;
   
   displayedColumns: string[] = [
-    'acctid', 'acctName', 'proximity','acctAddress', 'acctCity', 'socialsec',
-    'dateOfBirth','acction'];
+    'acctid', 'acctName', 'proximity','acction'];
   
   
   constructor(
     private modalService: MatDialog,
     public datepipe: DatePipe,
     public dialog: MatDialog, 
-    private _AccountService : AccountService
+    private _AccountService : AccountService,
+    private statusService : StatusService
   ) { }
   ngOnInit(): void {
     this.LoadAccount(this.inAcctID);
@@ -77,13 +78,17 @@ export class AccountTiedComponent implements OnInit {
    });
   }
 
+  returnColor(status : string) : string{
+    return this.statusService.ColorByStatus(Number(status));
+  }
+
   searchSelectionChange(Option : any){
     
     let numeId = Number(this.inAcctID);
     if ((this.AccountObj.acctID ?? 0 > 0) && numeId > 0)
     {
       if (Number(Option) === 1){
-        console.log(this.AccountObj.socialSec);
+        //console.log(this.AccountObj.socialSec);
         this.loadAccountTied(Number(Option),this.AccountObj.socialSec ?? "++++",numeId);
       }
       else if (Number(Option) === 2 || Number(Option) === 3){
@@ -91,27 +96,21 @@ export class AccountTiedComponent implements OnInit {
         if (!name || name === ""){
           name = "++++"
         }
-        console.log(name);
+        //console.log(name);
         this.loadAccountTied(Number(Option),name,numeId);
       }
     }
     
   }
   
-  loadAccountTied(Option : number, Value : string, AcctId : number): void{
+  async loadAccountTied(Option : number, Value : string, AcctId : number): Promise<void>{
         
-    this._AccountService.ListTied(Option , Value , AcctId ).subscribe({
-      next: (data : any) => { 
-        
-        this.AccountTiedList = data;
-        this.dataSource = new MatTableDataSource(data);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.collectionSize = data.length;
-        
-      },
-      error: (err : string) => { console.error(err); }
-    });
+    var data = await this._AccountService.ListTied(Option , Value , AcctId )
+    this.AccountTiedList = data;
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.collectionSize = data.length;
   } 
 
   SetAccountId(id : number){

@@ -1,6 +1,6 @@
 {
     "/api": {
-      "target": "https://10.0.50.127:44305",
+      "target": "https://izzywebappjpdev.azurewebsites.net",
       "secure": false
     }
   }

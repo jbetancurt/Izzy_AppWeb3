@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { Menu } from '.';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MenuService {
+  @Output() outshowProcessWQ: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() outshowAdvanceSearch: EventEmitter<boolean> = new EventEmitter<boolean>();
   lstMenu : Menu[] = [
     {id : 1, idPadre : 0, name : "File", value : ""},
     {id : 2, idPadre : 0, name : "Edit", value : ""},
@@ -15,7 +17,7 @@ export class MenuService {
     {id : 7, idPadre : 0, name : "Administration", value : ""},
     {id : 8, idPadre : 1, name : "Disable Idle Lockout", value : ""},
     {id : 9, idPadre : 1, name : "Change Password", value : "/File/ChangePasswordComponent"},
-    {id : 10, idPadre : 1, name : "Exit", value : ""},
+    {id : 10, idPadre : 1, name : "Exit", value : "Exit", isAction : true},
     //{id : 11, idPadre : 2, name : "Copy", value : ""},
     {id : 12, idPadre : 3, name : "Import Accounts", value : "/Tools/ImportAccountsComponent"},
     {id : 13, idPadre : 3, name : "Medifax Export", value : "/Tools/MedifaxExportComponent"},
@@ -36,6 +38,13 @@ export class MenuService {
   constructor(
     
   ) { }
+
+  public EmitShowProcessWQ(){
+    this.outshowProcessWQ.emit(true);
+  }
+  public EmishowAdvanceSearch(){
+    this.outshowAdvanceSearch.emit(true);
+  }
   
   public MenusXIdPadre(idPadre : number): Menu[]{    
     return this.lstMenu.filter(

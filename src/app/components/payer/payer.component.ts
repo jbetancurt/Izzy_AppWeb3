@@ -9,7 +9,7 @@ import { Payer, PayerService } from '.';
 @Component({
   selector: 'app-payer',
   templateUrl: './payer.component.html',
-  styleUrls: ['./payer.component.css']
+  styleUrls: ['./payer.component.scss']
 })
 export class PayerComponent implements OnInit {
   displayedColumns: string[] = ['sequence', 'payerName', 'payerContact', 'payerPhone','address','billDateType','action'];
@@ -38,7 +38,7 @@ export class PayerComponent implements OnInit {
   public LoadPayer(acctID : string): void{
     this.payerService.List(acctID).subscribe({
       next: (data : Payer[]) => { 
-        console.log(data);
+        //console.log(data);
         
         this._Payers = data;
         this.dataSource = new MatTableDataSource(data);
@@ -110,7 +110,7 @@ export class PayerComponent implements OnInit {
   
   SubmitPayer(){
     this.payer = this.addPayerFormGroup.value;
-    console.log(JSON.stringify(this.payer));
+    //console.log(JSON.stringify(this.payer));
     if (this.payer.acctID != null && this.payer.acctID > 0){      
       this.payerService.Edit(this.payer).subscribe({
         next: (data : Payer) => { 

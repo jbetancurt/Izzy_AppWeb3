@@ -10,7 +10,7 @@ import { Note, NoteService, NoteEditComponent } from './';
 @Component({
   selector: 'app-note',
   templateUrl: './note.component.html',
-  styleUrls: ['./note.component.css']
+  styleUrls: ['./note.component.scss']
 })
 export class NoteComponent implements OnInit {
   newLetterQ : LetterQ = new LetterQ;
@@ -52,7 +52,7 @@ export class NoteComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.GetNotes(this.inAcctID);
-      console.log(`Dialog result: ${result}`);
+      //console.log(`Dialog result: ${result}`);
     });
   }
 

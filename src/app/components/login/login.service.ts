@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, lastValueFrom } from 'rxjs';
 import { Users } from '../users/';
 import { Login } from './'
 import { environment } from 'src/environments/environment';
@@ -23,9 +23,9 @@ export class LoginService {
     public router: Router
     ) { }
 
-  signOut(): void {
+  async signOut(): Promise<void> {
     window.sessionStorage.clear();
-    this.router.navigate(['/login']);
+    await window.location.reload();
   }
   public saveToken(token: string): void {
     window.sessionStorage.removeItem(TOKEN_KEY);
@@ -44,11 +44,12 @@ export class LoginService {
     return new Users();
   }
 
-  login(username: string, password: string): Observable<any> {
+  async login(username: string, password: string) : Promise<any> {
     var login = new Login();
     login.password = password;
     login.userName = username;
-    return this.http.post(urlPage, login, httpOptions);
+    const categories$ = await this.http.post(urlPage, login, httpOptions);
+    return await lastValueFrom(categories$);
   }
   public IsSingned() : boolean{
     let isLoged = (this.GetTokenString() ?? "") != "";

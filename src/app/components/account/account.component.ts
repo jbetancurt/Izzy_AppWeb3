@@ -1,11 +1,12 @@
 import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Account, AccountService } from './';
+import { StatusService } from '../status';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
-  styleUrls: ['./account.component.css']
+  styleUrls: ['./account.component.scss']
 })
 export class AccountComponent implements OnInit {
   @Input() inAcctID : string = "";
@@ -18,7 +19,8 @@ export class AccountComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog, 
-    private _AccountService : AccountService
+    private _AccountService : AccountService,
+    private statusService : StatusService
   ) { }
 
   ngOnInit(): void {
@@ -27,6 +29,9 @@ export class AccountComponent implements OnInit {
     }
   }
 
+  returnColor(status : string) : string{
+    return this.statusService.ColorByStatus(Number(status));
+  }
   
   ChargeForm(id? : string){
     if (id ?? 0 > 0){

@@ -12,7 +12,7 @@ import { Status, StatusService } from '../../status';
 @Component({
   selector: 'app-note-edit',
   templateUrl: './note-edit.component.html',
-  styleUrls: ['./note-edit.component.css']
+  styleUrls: ['./note-edit.component.scss']
 })
 export class NoteEditComponent implements OnInit {
   objNote : Note  = new Note;
@@ -223,7 +223,7 @@ export class NoteEditComponent implements OnInit {
       let latest_date =this.datepipe.transform(this.letterDate, 'MM/dd/yyyy');
       this.objNote.noteText = this.objAccount.statusCode + " STATUS CHANGED FROM " + " TO " + noteFG.statusCode;
       this.objAccount.statusCode = noteFG.statusCode;
-      console.log(noteFG.statusCode);
+      //console.log(noteFG.statusCode);
       this.saveAccount(this.objAccount);
       this.saveNote(this.objNote);
     }
@@ -233,7 +233,7 @@ export class NoteEditComponent implements OnInit {
     this.MailRetunred = completed;
   }
   public ChangeMailOption(code : string): void{
-    console.log(code);
+    //console.log(code);
     
     if (this.MailReturnedOptions.length > 0){
       let actionLocal = this.MailReturnedOptions.filter(x => x.id == code);
@@ -256,7 +256,7 @@ export class NoteEditComponent implements OnInit {
       this.lstLetter = [];
       this._LetterQService.ListLetter().subscribe({
         next: (data : Letter[]) => { 
-          console.log(data);
+          //console.log(data);
           this.lstLetter = data;
         },
         error: (err : string) => { console.error(err); }

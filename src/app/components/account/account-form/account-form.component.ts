@@ -9,7 +9,7 @@ import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-account-form',
   templateUrl: './account-form.component.html',
-  styleUrls: ['./account-form.component.css']
+  styleUrls: ['./account-form.component.scss']
 })
 export class AccountFormComponent implements OnInit {  
   @Input() inAcctID: string = "";
@@ -76,7 +76,7 @@ export class AccountFormComponent implements OnInit {
   }
 
   public SetForm(account :  Account){   
-    console.log(JSON.stringify(account)); 
+    //console.log(JSON.stringify(account)); 
     if (this.Account.dateOfBirth && this.Account.fromDate)
     {
       var diff = Math.abs(new Date(this.Account.fromDate).getTime() - new Date(this.Account.dateOfBirth).getTime());
@@ -167,12 +167,12 @@ export class AccountFormComponent implements OnInit {
   }
 
   EditAccount() : void{
-    console.log("sub");
+    //console.log("sub");
     // ç
     this.addAccount = this.formImportAccount.value;
-    console.log(JSON.stringify(this.addAccount));
-    console.log(this.addAccount.rpDateOfBirth);
-    console.log(this.Account.dateOfBirth);
+    //console.log(JSON.stringify(this.addAccount));
+    //console.log(this.addAccount.rpDateOfBirth);
+    //console.log(this.Account.dateOfBirth);
   }
   
   LoadProjects(ClientCode : string) : void{

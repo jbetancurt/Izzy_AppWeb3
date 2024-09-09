@@ -123,3 +123,14 @@ export class AccountTied{
     dateOfBirth?: Date;
     socialsec: string = "";
 }
+
+export class AccountWorkQRequest{
+    clientCode?: string = "";
+    masterCode?: string = "";
+    cLientOrMaster?: string = "";
+    nextReview?: Date;
+    finClassCode?: string = "";
+    statusCode?: string = "";
+    placementDate?: Date;
+    balanceDue?: number = 0;
+}

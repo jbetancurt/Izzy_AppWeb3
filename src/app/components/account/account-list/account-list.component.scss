@@ -1,6 +1,74 @@
-.mat-column-balanceDue {
-    text-align: right; 
+/* General container styles */
+.contenedor {
+    display: flex;
+    flex-direction: column;
+    height: auto; /* Ajusta la altura automáticamente */
 }
-.mat-column-admitAge {
-    text-align: right; 
+  
+/* Table container styles */
+.table-container {
+    display: flex;
+    flex-direction: column;
+    max-height: 250px; /* Altura máxima para mostrar solo dos filas */
+    overflow-y: auto; /* Activa el scroll vertical si el contenido es mayor */
+    position: relative;
 }
+  
+.table-header {
+    flex-shrink: 0; /* Evita que el encabezado se encoja */
+    overflow: hidden; /* Oculta el desbordamiento */
+}
+  
+.table-content {
+    flex: 1;
+    overflow-y: auto; /* Permite el scroll vertical */
+    overflow-x: auto; /* Permite el scroll horizontal */
+}
+  
+.table-footer {
+    flex-shrink: 0; /* Evita que el pie de página se encoja */
+}
+  
+/* Table element styling */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Elimina el espacio entre bordes de celdas */
+    table-layout: fixed; /* Ancho fijo para las columnas */
+}
+  
+/* Sticky header */
+.mat-header-row {
+    position: sticky;
+    top: 0;
+    background-color: white; /* Asegúrate de que el fondo no sea transparente */
+    z-index: 1; /* Asegura que el encabezado esté encima del contenido */
+    border-bottom: 2px solid #ccc; /* Línea de separación para el encabezado */
+}
+  
+/* Header cell styling */
+table .mat-header-cell {
+    min-width: 50px; /* Ancho mínimo para el encabezado */
+    box-sizing: border-box; /* Padding y border incluidos en el ancho total */
+    text-align: center; /* Centra el contenido de las celdas */
+    white-space: nowrap; /* Evita que el texto se rompa */
+    overflow: hidden; /* Oculta el desbordamiento */
+    text-overflow: ellipsis; /* Muestra "..." si el texto es demasiado largo */
+    border-bottom: 1px solid #ccc; /* Línea de separación para el encabezado */
+    padding: 10px;
+    background-color: #f1f1f1; /* Fondo gris claro para diferenciar el encabezado */
+    //font-size: 4px !important;
+}
+  
+/* Cell content styling */
+table .mat-cell {
+    min-width: 50px; /* Ancho mínimo para las celdas */
+    box-sizing: border-box;
+    text-align: center; /* Centra el contenido de las celdas */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-bottom: 1px solid #ccc; /* Línea de separación para las celdas */
+    padding: 10px;
+    //font-size: 3px !important;
+}
+

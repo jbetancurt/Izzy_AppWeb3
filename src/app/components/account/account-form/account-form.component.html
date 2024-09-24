@@ -1,372 +1,375 @@
-<form [formGroup]="formImportAccount" (ngSubmit)="EditAccount()">
-    <h1 mat-dialog-title>Account # {{ inAcctID }}        
-        <span class="menu-spacer"></span>
-        <button mat-stroked-button class="btn-rigth" color="accent" mat-dialog-close>
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </h1>
-    <div mat-dialog-content>
-        <div class="starter-template">
-            <div fxLayout="row" fxLayoutGap="5px">
-                <div class="col-md-12 mt-5">
-                    <h1>{{ titulo }} </h1>
-                </div>
-            </div>    
-        </div>
-        <input type="hidden" formControlName="userID" />
-        <input type="hidden" formControlName="acctID" />
-        <input type="hidden" formControlName="masterCode" />
-        <input type="hidden" formControlName="postDate" />
-        <input type="hidden" formControlName="serviceCode" />
+<div class="contenedor-form">
+    <form [formGroup]="formImportAccount" (ngSubmit)="EditAccount()">
+        <h1 mat-dialog-title class="header-buttons">
+            Account # {{ inAcctID }}
+            <span class="menu-spacer"></span>
+            <button mat-icon-button color="primary" class="close-button" mat-dialog-close>
+                <mat-icon>close</mat-icon>
+            </button>
+        </h1>
+        <div mat-dialog-content>
+            <div class="starter-template">
+                <div fxLayout="row" fxLayoutGap="5px">
+                    <div class="col-md-12 mt-5">
+                        <h1>{{ titulo }} </h1>
+                    </div>
+                </div>    
+            </div>
+            <input type="hidden" formControlName="userID" />
+            <input type="hidden" formControlName="acctID" />
+            <input type="hidden" formControlName="masterCode" />
+            <input type="hidden" formControlName="postDate" />
+            <input type="hidden" formControlName="serviceCode" />
+            
         
-    
-        <div fxLayout="row" fxLayoutGap="5px">
-            <div appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                <div fxLayout="row" fxLayoutGap="5px">
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Client: </mat-label>
-                        <mat-select #SelectClient formControlName="clientCode" (selectionChange)="LoadProjects(SelectClient.value)">
-                            <mat-option></mat-option>
-                            <mat-option  *ngFor="let item of allClients" [value]="item.clientCode">{{ item.clientCode }} - {{ item.name| uppercase }}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Project: </mat-label>
-                        <mat-select #SelectProject formControlName="projectCode" >
-                            <mat-option></mat-option>
-                            <mat-option *ngFor="let item of ListProjects" [value]="item.projectCode">{{ item.projectCode }} - {{ item.name| uppercase }}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div fxLayout="row" fxLayoutGap="5px" >
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Client Reference #</mat-label>
-                        <input matInput formControlName="clientRef1"  >
-                    </mat-form-field>
-                </div>
-                <div fxLayout="row" fxLayoutGap="5px" >
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>First name</mat-label>
-                        <input matInput formControlName="firstName"  >
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Middle name</mat-label>
-                        <input matInput formControlName="middleName"  >
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Last name</mat-label>
-                        <input matInput formControlName="lastName"  >
-                    </mat-form-field>
-                </div>
-                
-                <div fxLayout="row" fxLayoutGap="5px" >
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Address Line 1</mat-label>
-                        <input matInput formControlName="address1"  >
-                    </mat-form-field>
-                </div>
-                <div fxLayout="row" fxLayoutGap="5px" >
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Address Line 2</mat-label>
-                        <input matInput formControlName="address2"  >
-                    </mat-form-field>
-                </div>
-                
-                <div fxLayout="row" fxLayoutGap="5px" >
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>City</mat-label>
-                        <input matInput formControlName="city"  >
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>State</mat-label>
-                        <input matInput formControlName="state"  >
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Zip Code</mat-label>
-                        <input matInput formControlName="zip"  >
-                    </mat-form-field>
-                </div>
-                
-                <div fxLayout="row" fxLayoutGap="5px" >
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Home</mat-label>
-                        <input matInput formControlName="phone1"  >
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Alt Phone</mat-label>
-                        <input matInput formControlName="phone2"  >
-                    </mat-form-field>
-                </div>
-                <div fxLayout="row" fxLayoutGap="5px" >
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Date Of Birth</mat-label>
-                        <input matInput [matDatepicker]="dateOfBirth" formControlName="dateOfBirth">
-                        <mat-hint>MM/DD/YYYY </mat-hint>
-                        <mat-datepicker-toggle matSuffix [for]="dateOfBirth"></mat-datepicker-toggle>
-                        <mat-datepicker #dateOfBirth></mat-datepicker>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>SSN</mat-label>
-                        <input matInput formControlName="socialSec"  >
-                    </mat-form-field>
-                </div>
-                <div fxLayout="row" fxLayoutGap="5px" >
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Identification #</mat-label>
-                        <input matInput formControlName="idNumber"  >
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Gender</mat-label>
-                        <mat-select #SelectClient formControlName="gender" appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                            <mat-option value=""></mat-option>
-                            <mat-option value="F">FEMALE</mat-option>
-                            <mat-option value="M">MALE</mat-option>
-                        </mat-select>
-                    </mat-form-field>                    
-                </div>
-                <div fxLayout="row" fxLayoutGap="5px" >
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Medical Record #</mat-label>
-                        <input matInput formControlName="idNumber"  >
-                    </mat-form-field>
-                </div>
-    
-    
-    
-    
-                <div fxLayout="row" fxLayoutGap="5px">
-                    <div appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>                  
-                        <button mat-stroked-button color="primary" (click)="CopyToRP()">Copy To RP</button>
+            <div fxLayout="row" fxLayoutGap="5px">
+                <div appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                    <div fxLayout="row" fxLayoutGap="5px">
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Client: </mat-label>
+                            <mat-select #SelectClient formControlName="clientCode" (selectionChange)="LoadProjects(SelectClient.value)">
+                                <mat-option></mat-option>
+                                <mat-option  *ngFor="let item of allClients" [value]="item.clientCode">{{ item.clientCode }} - {{ item.name| uppercase }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Project: </mat-label>
+                            <mat-select #SelectProject formControlName="projectCode" >
+                                <mat-option></mat-option>
+                                <mat-option *ngFor="let item of ListProjects" [value]="item.projectCode">{{ item.projectCode }} - {{ item.name| uppercase }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="5px" >
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Client Reference #</mat-label>
+                            <input matInput formControlName="clientRef1"  >
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="5px" >
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>First name</mat-label>
+                            <input matInput formControlName="firstName"  >
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Middle name</mat-label>
+                            <input matInput formControlName="middleName"  >
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Last name</mat-label>
+                            <input matInput formControlName="lastName"  >
+                        </mat-form-field>
+                    </div>
+                    
+                    <div fxLayout="row" fxLayoutGap="5px" >
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Address Line 1</mat-label>
+                            <input matInput formControlName="address1"  >
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="5px" >
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Address Line 2</mat-label>
+                            <input matInput formControlName="address2"  >
+                        </mat-form-field>
+                    </div>
+                    
+                    <div fxLayout="row" fxLayoutGap="5px" >
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>City</mat-label>
+                            <input matInput formControlName="city"  >
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>State</mat-label>
+                            <input matInput formControlName="state"  >
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Zip Code</mat-label>
+                            <input matInput formControlName="zip"  >
+                        </mat-form-field>
+                    </div>
+                    
+                    <div fxLayout="row" fxLayoutGap="5px" >
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Home</mat-label>
+                            <input matInput formControlName="phone1"  >
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Alt Phone</mat-label>
+                            <input matInput formControlName="phone2"  >
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="5px" >
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Date Of Birth</mat-label>
+                            <input matInput [matDatepicker]="dateOfBirth" formControlName="dateOfBirth">
+                            <mat-hint>MM/DD/YYYY </mat-hint>
+                            <mat-datepicker-toggle matSuffix [for]="dateOfBirth"></mat-datepicker-toggle>
+                            <mat-datepicker #dateOfBirth></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>SSN</mat-label>
+                            <input matInput formControlName="socialSec"  >
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="5px" >
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Identification #</mat-label>
+                            <input matInput formControlName="idNumber"  >
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Gender</mat-label>
+                            <mat-select #SelectClient formControlName="gender" appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                                <mat-option value=""></mat-option>
+                                <mat-option value="F">FEMALE</mat-option>
+                                <mat-option value="M">MALE</mat-option>
+                            </mat-select>
+                        </mat-form-field>                    
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="5px" >
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Medical Record #</mat-label>
+                            <input matInput formControlName="idNumber"  >
+                        </mat-form-field>
+                    </div>
+        
+        
+        
+        
+                    <div fxLayout="row" fxLayoutGap="5px">
+                        <div appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>                  
+                            <button mat-stroked-button color="primary" (click)="CopyToRP()" style="width: 100%;">Copy To RP</button>
+                        </div>
+                    </div>
+                    <br>
+                    <div fxLayout="row" fxLayoutGap="5px" >
+                        <h1><strong>Resp Party</strong></h1>
+                    </div>
+                    
+                    <div fxLayout="row" fxLayoutGap="5px" >
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>RP First name</mat-label>
+                            <input matInput formControlName="rpFirstName"  >
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>RP Middle name</mat-label>
+                            <input matInput formControlName="rpMiddleName"  >
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>RP Last name</mat-label>
+                            <input matInput formControlName="rpLastName"  >
+                        </mat-form-field>
+                    </div>
+
+
+                    
+                    <div fxLayout="row" fxLayoutGap="5px" >
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>RP Address Line 1</mat-label>
+                            <input matInput formControlName="rpAddress1"  >
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="5px" >
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>RP Address Line 2</mat-label>
+                            <input matInput formControlName="rpAddress2"  >
+                        </mat-form-field>
+                    </div>
+                    
+                    <div fxLayout="row" fxLayoutGap="5px" >
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>RP City</mat-label>
+                            <input matInput formControlName="rpCity"  >
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>RP State</mat-label>
+                            <input matInput formControlName="rpState"  >
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>RP Zip Code</mat-label>
+                            <input matInput formControlName="rpZip"  >
+                        </mat-form-field>
+                    </div>
+                    
+                    <div fxLayout="row" fxLayoutGap="5px" >
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>RP Phone</mat-label>
+                            <input matInput formControlName="rpPhone1"  >
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Relationship</mat-label>
+                            <input matInput formControlName="relationship"  >
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="5px" >
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>RP Date Of Birth</mat-label>
+                            <input matInput [matDatepicker]="rpDateOfBirth" formControlName="rpDateOfBirth">
+                            <mat-hint>MM/DD/YYYY </mat-hint>
+                            <mat-datepicker-toggle matSuffix [for]="rpDateOfBirth"></mat-datepicker-toggle>
+                            <mat-datepicker #rpDateOfBirth></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>RP SSN</mat-label>
+                            <input matInput formControlName="rpSocialSec"  >
+                        </mat-form-field>
+                    </div>
+                    
+                    <div fxLayout="row" fxLayoutGap="5px" >
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>RP Country</mat-label>
+                            <input matInput formControlName="rpCountry"  >
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Use RP on Letter</mat-label>
+                            <input matInput formControlName="rpUseOnLtr"  >
+                        </mat-form-field>
                     </div>
                 </div>
-                <div fxLayout="row" fxLayoutGap="5px" >
-                    <strong>Resp Party</strong>
-                </div>
-                <div fxLayout="row" fxLayoutGap="5px" >
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>RP First name</mat-label>
-                        <input matInput formControlName="rpFirstName"  >
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>RP Middle name</mat-label>
-                        <input matInput formControlName="rpMiddleName"  >
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>RP Last name</mat-label>
-                        <input matInput formControlName="rpLastName"  >
-                    </mat-form-field>
-                </div>
-
-
-                
-                <div fxLayout="row" fxLayoutGap="5px" >
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>RP Address Line 1</mat-label>
-                        <input matInput formControlName="rpAddress1"  >
-                    </mat-form-field>
-                </div>
-                <div fxLayout="row" fxLayoutGap="5px" >
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>RP Address Line 2</mat-label>
-                        <input matInput formControlName="rpAddress2"  >
-                    </mat-form-field>
-                </div>
-                
-                <div fxLayout="row" fxLayoutGap="5px" >
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>RP City</mat-label>
-                        <input matInput formControlName="rpCity"  >
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>RP State</mat-label>
-                        <input matInput formControlName="rpState"  >
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>RP Zip Code</mat-label>
-                        <input matInput formControlName="rpZip"  >
-                    </mat-form-field>
-                </div>
-                
-                <div fxLayout="row" fxLayoutGap="5px" >
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>RP Phone</mat-label>
-                        <input matInput formControlName="rpPhone1"  >
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Relationship</mat-label>
-                        <input matInput formControlName="relationship"  >
-                    </mat-form-field>
-                </div>
-                <div fxLayout="row" fxLayoutGap="5px" >
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>RP Date Of Birth</mat-label>
-                        <input matInput [matDatepicker]="rpDateOfBirth" formControlName="rpDateOfBirth">
-                        <mat-hint>MM/DD/YYYY </mat-hint>
-                        <mat-datepicker-toggle matSuffix [for]="rpDateOfBirth"></mat-datepicker-toggle>
-                        <mat-datepicker #rpDateOfBirth></mat-datepicker>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>RP SSN</mat-label>
-                        <input matInput formControlName="rpSocialSec"  >
-                    </mat-form-field>
-                </div>
-                
-                <div fxLayout="row" fxLayoutGap="5px" >
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>RP Country</mat-label>
-                        <input matInput formControlName="rpCountry"  >
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Use RP on Letter</mat-label>
-                        <input matInput formControlName="rpUseOnLtr"  >
-                    </mat-form-field>
-                </div>
             </div>
-        </div>
-        <hr>
-        <div fxLayout="row" fxLayoutGap="5px" >
-            <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                <mat-label>Employer</mat-label>
-                <input matInput formControlName="employerName"  >
-            </mat-form-field>
-        </div>
-        <div fxLayout="row" fxLayoutGap="5px">
-            <div appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                <div fxLayout="row" fxLayoutGap="5px" >
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Work Address Line 1</mat-label>
-                        <input matInput formControlName="empAddress1"  >
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Work Address Line 2</mat-label>
-                        <input matInput formControlName="empAddress2"  >
-                    </mat-form-field>
-                </div>
-                <div fxLayout="row" fxLayoutGap="5px" >
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Work City</mat-label>
-                        <input matInput formControlName="empCity"  >
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Work State</mat-label>
-                        <input matInput formControlName="empState"  >
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Work Zip Code</mat-label>
-                        <input matInput formControlName="empZip"  >
-                    </mat-form-field>
-                </div>
-                
-                <div fxLayout="row" fxLayoutGap="5px" >
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Work Phone</mat-label>
-                        <input matInput formControlName="empPhone"  >
-                    </mat-form-field>
-                </div>
-                <br>
-                <br>
-                <br>    
-    
-                <div fxLayout="row" fxLayoutGap="5px">
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>From Date</mat-label>
-                        <input matInput [matDatepicker]="fromDate" formControlName="fromDate">
-                        <mat-hint>MM/DD/YYYY </mat-hint>
-                        <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
-                        <mat-datepicker #fromDate></mat-datepicker>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Total Charges</mat-label>
-                        <input matInput formControlName="totalCharges"  >
-                    </mat-form-field>
-                </div>
-                <div fxLayout="row" fxLayoutGap="5px">
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>To Date</mat-label>
-                        <input matInput [matDatepicker]="toDate" formControlName="toDate">
-                        <mat-hint>MM/DD/YYYY </mat-hint>
-                        <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
-                        <mat-datepicker #toDate></mat-datepicker>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Prior Payments</mat-label>
-                        <input matInput formControlName="priorPayments"  >
-                    </mat-form-field>
-                </div>
-                <div fxLayout="row" fxLayoutGap="5px">
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Financial Class</mat-label>
-                        <input matInput formControlName="finClassCode"  >
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Prior Adjustments</mat-label>
-                        <input matInput formControlName="priorAdjustments"  >
-                    </mat-form-field>
-                </div>
-                
-                <div fxLayout="row" fxLayoutGap="5px">
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Service Code</mat-label>
-                        <input matInput formControlName="serviceCode"  >
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Assigned Amount</mat-label>
-                        <input matInput formControlName="assignedAmount"  >
-                    </mat-form-field>
-                </div>
-
-                <div fxLayout="row" fxLayoutGap="5px">
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Payments</mat-label>
-                        <input matInput formControlName="payments"  >
-                    </mat-form-field>
-                </div>
-                
-                <div fxLayout="row" fxLayoutGap="5px">
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>bill Type</mat-label>
-                        <input matInput formControlName="lastBillType"  >
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Adjustments</mat-label>
-                        <input matInput formControlName="adjustments"  >
-                    </mat-form-field>
-                </div>
-                <div fxLayout="row" fxLayoutGap="5px">
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>bill Date</mat-label>
-                        <input matInput [matDatepicker]="lastBillDate" formControlName="lastBillDate">
-                        <mat-hint>MM/DD/YYYY </mat-hint>
-                        <mat-datepicker-toggle matSuffix [for]="lastBillDate"></mat-datepicker-toggle>
-                        <mat-datepicker #lastBillDate></mat-datepicker>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Balance Due</mat-label>
-                        <input matInput formControlName="balanceDue"  >
-                    </mat-form-field>
-                </div>
-                <div fxLayout="row" fxLayoutGap="5px">
-                    <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                        <mat-label>Assigned Date</mat-label>
-                        <input matInput [matDatepicker]="placementDate" formControlName="placementDate">
-                        <mat-hint>MM/DD/YYYY </mat-hint>
-                        <mat-datepicker-toggle matSuffix [for]="placementDate"></mat-datepicker-toggle>
-                        <mat-datepicker #placementDate></mat-datepicker>
-                    </mat-form-field>
-                </div>
-                
+            <hr>
+            <div fxLayout="row" fxLayoutGap="5px" >
+                <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                    <mat-label>Employer</mat-label>
+                    <input matInput formControlName="employerName"  >
+                </mat-form-field>
             </div>
-        </div>
-        <hr>
+            <div fxLayout="row" fxLayoutGap="5px">
+                <div appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                    <div fxLayout="row" fxLayoutGap="5px" >
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Work Address Line 1</mat-label>
+                            <input matInput formControlName="empAddress1"  >
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Work Address Line 2</mat-label>
+                            <input matInput formControlName="empAddress2"  >
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="5px" >
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Work City</mat-label>
+                            <input matInput formControlName="empCity"  >
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Work State</mat-label>
+                            <input matInput formControlName="empState"  >
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Work Zip Code</mat-label>
+                            <input matInput formControlName="empZip"  >
+                        </mat-form-field>
+                    </div>
+                    
+                    <div fxLayout="row" fxLayoutGap="5px" >
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Work Phone</mat-label>
+                            <input matInput formControlName="empPhone"  >
+                        </mat-form-field>
+                    </div>
+                      
         
-    </div>
-    <div mat-dialog-actions>
-        <div fxLayout="row" fxLayoutGap="5px">
-            <div appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-                <div class="input-group mb-3">
-                    <button type="submit" mat-stroked-button color="primary">Save</button>
-                </div>            
+                    <div fxLayout="row" fxLayoutGap="5px">
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>From Date</mat-label>
+                            <input matInput [matDatepicker]="fromDate" formControlName="fromDate">
+                            <mat-hint>MM/DD/YYYY </mat-hint>
+                            <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+                            <mat-datepicker #fromDate></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Total Charges</mat-label>
+                            <input matInput formControlName="totalCharges"  >
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="5px">
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>To Date</mat-label>
+                            <input matInput [matDatepicker]="toDate" formControlName="toDate">
+                            <mat-hint>MM/DD/YYYY </mat-hint>
+                            <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+                            <mat-datepicker #toDate></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Prior Payments</mat-label>
+                            <input matInput formControlName="priorPayments"  >
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="5px">
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Financial Class</mat-label>
+                            <input matInput formControlName="finClassCode"  >
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Prior Adjustments</mat-label>
+                            <input matInput formControlName="priorAdjustments"  >
+                        </mat-form-field>
+                    </div>
+                    
+                    <div fxLayout="row" fxLayoutGap="5px">
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Service Code</mat-label>
+                            <input matInput formControlName="serviceCode"  >
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Assigned Amount</mat-label>
+                            <input matInput formControlName="assignedAmount"  >
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayoutGap="5px">
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Payments</mat-label>
+                            <input matInput formControlName="payments"  >
+                        </mat-form-field>
+                    </div>
+                    
+                    <div fxLayout="row" fxLayoutGap="5px">
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>bill Type</mat-label>
+                            <input matInput formControlName="lastBillType"  >
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Adjustments</mat-label>
+                            <input matInput formControlName="adjustments"  >
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="5px">
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>bill Date</mat-label>
+                            <input matInput [matDatepicker]="lastBillDate" formControlName="lastBillDate">
+                            <mat-hint>MM/DD/YYYY </mat-hint>
+                            <mat-datepicker-toggle matSuffix [for]="lastBillDate"></mat-datepicker-toggle>
+                            <mat-datepicker #lastBillDate></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Balance Due</mat-label>
+                            <input matInput formControlName="balanceDue"  >
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="5px">
+                        <mat-form-field appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+                            <mat-label>Assigned Date</mat-label>
+                            <input matInput [matDatepicker]="placementDate" formControlName="placementDate">
+                            <mat-hint>MM/DD/YYYY </mat-hint>
+                            <mat-datepicker-toggle matSuffix [for]="placementDate"></mat-datepicker-toggle>
+                            <mat-datepicker #placementDate></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    
+                </div>
+            </div>
+            <hr>
+            
+        </div>
+        <div mat-dialog-actions style="justify-content: flex-end; margin-right: 30px;">
+            <div fxLayout="row" fxLayoutGap="5px">
+                <div appearance="fill" fxLayout.sm="column" fxLayout.xs="column" fxFlex >
+                    <div class="input-group mb-3">
+                        <button type="submit" mat-stroked-button color="primary">Save</button>
+                    </div>            
+                </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
+</div>

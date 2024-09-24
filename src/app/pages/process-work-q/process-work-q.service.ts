@@ -22,4 +22,9 @@ export class ProcessWorkQService {
 
     return await lastValueFrom(categories$);
   }
+
+  public async EditAccount(account: Account): Promise<Account> {
+    const editedAccount$ = await this.httpClient.put<Account>(`${this.urlPage}/${account.acctID}`, JSON.stringify(account), this.httpOptions);
+    return await lastValueFrom(editedAccount$);
+  }
 }

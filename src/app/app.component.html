@@ -1,5 +1,5 @@
 <span *ngIf="isLogged">
-  <mat-toolbar color="primary">
+  <mat-toolbar color="primary" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;">
     <mat-toolbar-row>
       <button mat-icon-button *ngIf="isLogged">
         <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
@@ -21,94 +21,25 @@
       <span style="font-size: 12px;">{{ VarNombreUser }}</span>
     </mat-toolbar-row>
   </mat-toolbar>
-  <mat-sidenav-container>
+  <mat-sidenav-container style="margin-top: 64px;"> <!-- Ajusta el margen superior para evitar que el contenido se superponga con la barra fija -->
     <mat-sidenav #sidenav>
       <mat-nav-list *ngIf="isLogged">
-
         <app-menu [inTipoMenu]="1"></app-menu>
-
         <a mat-list-item (click)="loginService.signOut()" href="" mat-list-item>
           <mat-icon>exit_to_app</mat-icon>
           Close
         </a>
-
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
       <div style="height: 88vh;">
         <div class="ContentCards">
           <mat-drawer-container class="example-container" layout fullscreen>
-            <mat-drawer #drawerLeft mode="side" position="start">
-              <div>
-                <mat-card>
-                  <mat-card-content>
-                    <app-process-work-q></app-process-work-q>
-
-                  </mat-card-content>
-                  <mat-card-actions align="end">
-                    <button mat-stroked-button color="primary" (click)="closeshowProcessWQ()"> close </button>
-                  </mat-card-actions>
-                </mat-card>
-              </div>
-
-            </mat-drawer>
             <mat-drawer-content>
-
-              <mat-drawer-container class="example-container" layout fullscreen>
-                <mat-drawer #drawerRight mode="side" position="end">
-                  <mat-card>
-                    <mat-card-content>
-                      <app-advanced-search></app-advanced-search>
-                    </mat-card-content>
-                    <mat-card-actions align="end">
-                      <button class="btn-rigth" mat-stroked-button color="primary" (click)="closeshowAdvanceSearch()">
-                        Close </button>
-                    </mat-card-actions>
-                  </mat-card>
-                </mat-drawer>
-                <mat-drawer-content>
-
-
-
-                  <mat-card [ngStyle]="{display: showAccountInfo1 ? 'block' : 'none'}">
-                    <mat-card-content>
-                      <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
-                        <mat-tab *ngFor="let tab of tabs; index as i"
-                          [label]=" tab.firstName + ' ' + tab.lastName + ' - ' + tab.clientRef1 + '  Status Code: ' + tab.statusCode">
-                          <button class="btn-rigth" mat-raised-button [disabled]="tabs.length === 1"
-                            (click)="removeTab(i)">
-                            CLOSE {{tab.firstName + ' ' + tab.lastName + ' - ' + tab.clientRef1}}
-                          </button>
-                          <br>
-                          <br>
-                          <app-account *ngIf="tab != null" [inAcctID]="validateString(tab.acctID)"></app-account>
-                        </mat-tab>
-                      </mat-tab-group>
-
-                    </mat-card-content>
-                    <mat-card-actions align="end">
-                      <button class="btn-rigth" mat-stroked-button color="primary" (click)="closeshowAccountInfo1()">
-                        Close </button>
-                    </mat-card-actions>
-                  </mat-card>
-
-
-                </mat-drawer-content>
-              </mat-drawer-container>
-
-
-
+              <app-process-work-q></app-process-work-q>
             </mat-drawer-content>
           </mat-drawer-container>
-
-
-
-
-
-
-
         </div>
-
         <router-outlet></router-outlet>
       </div>
     </mat-sidenav-content>
@@ -116,20 +47,80 @@
   <mat-progress-spinner [mode]="'indeterminate'" *ngIf="loading$ | async"></mat-progress-spinner>
 </span>
 
-
 <div *ngIf="!isLogged" style="height: 88vh; background-color: dimgrey;">
   <div class="row">
-    <div class="col-md-1">
-
-    </div>
+    <div class="col-md-1"></div>
     <div class="col-md-10">
-
-      <router-outlet>
-      </router-outlet>
-
+      <router-outlet></router-outlet>
     </div>
-    <div class="col-md-1">
+    <div class="col-md-1"></div>
+  </div>
+</div>
+
+<!-- Ventana flotante para app-advanced-search -->
+<div *ngIf="showAdvancedSearch" #floatingAdvancedSearch class="floating-window" [ngClass]="{ 'minimized': isMinimizedAdvancedSearch }" cdkDrag 
+     (cdkDragStarted)="onDragStarted($event)" 
+     (cdkDragEnded)="onDragEnded($event, 'advancedSearch')">
+  <div class="floating-window-header">
+    <div class="header-buttons">
+      <button mat-icon-button color="primary" (click)="minimizeWindow('advancedSearch')">
+        <mat-icon>remove</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" (click)="closeAdvancedSearch()">
+        <mat-icon>close</mat-icon>
+      </button>
     </div>
+  </div>
+  <div class="floating-window-content">
+    <app-advanced-search></app-advanced-search>
+  </div>
+</div>
+
+<!-- Ventana flotante para app-advanced-search-view-info -->
+<div *ngIf="showAdvancedSearchViewInfo" #floatingViewInfo class="floating-window" [ngClass]="{ 'minimized': isMinimizedViewInfo }" cdkDrag 
+     (cdkDragStarted)="onDragStarted($event)" 
+     (cdkDragEnded)="onDragEnded($event, 'viewInfo')">
+  <div class="floating-window-header">
+    <div class="header-buttons">
+      <button mat-icon-button color="primary" (click)="minimizeWindow('viewInfo')">
+        <mat-icon>remove</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" (click)="closeAdvancedSearchViewInfo()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="floating-window-content">
+    <mat-card [ngStyle]="{display: showAccountInfo1 ? 'block' : 'none'}">
+      <mat-card-content>
+        <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
+          <mat-tab *ngFor="let tab of tabs; index as i"
+            [label]="tab.firstName + ' ' + tab.lastName + ' - ' + tab.clientRef1 + '  Status Code: ' + tab.statusCode">
+            <button class="btn-rigth" mat-raised-button [disabled]="tabs.length === 1" (click)="removeTab(i)">
+              CLOSE {{tab.firstName + ' ' + tab.lastName + ' - ' + tab.clientRef1}}
+            </button>
+            <br><br>
+            <app-account *ngIf="tab != null" [inAcctID]="validateString(tab.acctID)"></app-account>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button class="btn-rigth" mat-stroked-button color="primary" (click)="closeshowAccountInfo1()">Close</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+
+<!-- Contenedor para las ventanas minimizadas -->
+<div class="minimized-windows-container">
+  <!-- Botón para restaurar la ventana minimizada Advanced Search -->
+  <div class="minimized-window" *ngIf="isMinimizedAdvancedSearch" (click)="restoreWindow('advancedSearch')">
+    <button mat-stroked-button color="primary">Advanced Search</button>
+  </div>
+
+  <!-- Botón para restaurar la ventana minimizada View Info -->
+  <div class="minimized-window" *ngIf="isMinimizedViewInfo" (click)="restoreWindow('viewInfo')">
+    <button mat-stroked-button color="primary">View Info</button>
   </div>
 </div>
 

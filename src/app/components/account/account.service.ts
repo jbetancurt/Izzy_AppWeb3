@@ -44,9 +44,17 @@ export class AccountService {
   public Edit(_Account : Account): Observable<Account>{  
     
     //console.log(this.urlPage + '/' + (_Account.acctID));  
+    console.log(_Account.acctID);
     return this.httpClient.put<Account>(this.urlPage + '/' + (_Account.acctID), _Account, this.httpOptions);
   }
-
+//----------esto lo hizo julian------------------------------//
+  public EditStatus(_Account : Account): Observable<Account>{  
+    
+    //console.log(this.urlPage + '/' + (_Account.acctID));  
+    console.log(_Account.acctID);
+    return this.httpClient.put<Account>(this.urlPage + '/updateStatus/' + (_Account.acctID), _Account, this.httpOptions);
+  }
+//------------------------------------------------------------//
   public Create(_Account : Account): Observable<Account>{    
     return this.httpClient.post<Account>(this.urlPage, _Account, this.httpOptions);
   }

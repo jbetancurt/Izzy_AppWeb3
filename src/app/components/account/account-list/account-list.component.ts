@@ -166,14 +166,15 @@ export class AccountListComponent implements OnInit  {
     return this.statusService.ColorByStatus(Number(status));
   }
 
-  ShowInfo(id? : number){
-    
-    if (id ?? 0 > 0){
-      //this.outAcctID.emit((id ?? 0).toString());
+  ShowInfo(id? : number) {
+    // Verifica si el id es mayor que 0
+    if (id ?? 0 > 0) {
+      // Emite el objeto de allAccounts que tiene el acctID igual al id
       this._AccountService.accountEmit.emit(this.allAccounts.filter(x => x.acctID == id)[0]);
-      if (this.lstWorked.filter(x => x == id).length === 0){
+      
+      // Si el id no está en lstWorked, lo agrega
+      if (this.lstWorked.filter(x => x == id).length === 0) {
         this.lstWorked.push(id ?? 0);
-
       }
     }
   }

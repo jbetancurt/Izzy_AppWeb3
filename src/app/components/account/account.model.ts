@@ -65,7 +65,7 @@ export class Account {
     language? : string = "";
     autoClose? : Date;
     closedDate? : Date;
-    archive? : boolean;
+    archive : boolean=false;
     lastPayAmt? : number;
     lastPayDate? : Date;
     lastLtrCode? : string = "";
@@ -96,7 +96,7 @@ export class Account {
     commentText? : string = "";
     submitDate? : Date;
     resubmitDate? : Date;
-    returnedMail? : boolean;
+    returnedMail : boolean=false;
     actionCode? : string = "";
     actionDate? : Date;
     accountFlagType? : string = "";
@@ -134,3 +134,5 @@ export class AccountWorkQRequest{
     placementDate?: Date;
     balanceDue?: number = 0;
 }
+
+

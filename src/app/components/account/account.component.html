@@ -6,6 +6,12 @@
         </span>
     </div>
     <div fxLayout.sm="column" fxLayout.xs="column" fxFlex>
+        <span><strong>Name:</strong>
+            
+            {{Account.firstName }} {{Account.middleName }} {{Account.lastName }}
+        </span>
+    </div>
+    <div fxLayout.sm="column" fxLayout.xs="column" fxFlex>
         <span >
             <strong>Client / Project:</strong>
             
@@ -18,7 +24,7 @@
         {{Account.clientRef1 }}
     </div>
     <div fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-        <div class="StatusCircle" [style.background]="returnColor(Account.statusCode ?? '')">
+        <div class="StatusCircle"  [style.background]="returnColor(Account.statusCode ?? '')">
             <strong>Status:</strong>
             {{Account.statusCode}} 
         </div>
@@ -26,20 +32,15 @@
             <span *ngIf="Account.statusCode === '800'" class="badge bg-success">{{Account.statusCode }}</span>
             <span *ngIf="Account.statusCode === '900'" class="badge bg-danger">{{Account.statusCode }}</span>
         </ng-container>
-        <span *ngIf="!statusCodeAlert"  class="badge bg-light text-dark">{{Account.statusCode }}</span>
+        
             
     </div>
+    
+</div>
+<div fxLayout="row" fxLayoutGap="5px" >
     <div fxLayout.sm="column" fxLayout.xs="column" fxFlex><strong>Status Date:</strong>
         
         {{Account.statusDate | date:'mediumDate' }}
-    </div>
-</div>
-<div fxLayout="row" fxLayoutGap="5px" >
-    <div fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-        <span><strong>Name:</strong>
-            
-            {{Account.firstName }} {{Account.middleName }} {{Account.lastName }}
-        </span>
     </div>
     <div fxLayout.sm="column" fxLayout.xs="column" fxFlex><strong>From:</strong>
         
@@ -64,7 +65,7 @@
         <span class="form-control"><strong>Address 1:</strong></span>
         
         <label class="form-control" >{{Account.address1 }}</label>
-        
+        <br>
         <span class="form-control"><strong>Address 2:</strong></span>
         
         <label class="form-control" >{{Account.address2 }}</label>
@@ -73,7 +74,7 @@
         <span class="form-control"><strong>City State Zip:</strong></span>
         
         <label class="form-control" >{{Account.city }}, {{Account.state }} {{Account.zip }}</label>
-        
+        <br>
         <span class="form-control"><strong>(Home /Alt) Phone:</strong></span>
         
         <label class="form-control" >{{Account.phone1 }}-{{Account.phone2 }}</label>
@@ -82,7 +83,7 @@
         <span class="form-control"><strong>Date of Birth:</strong></span>
         
         <label class="form-control" >{{Account.dateOfBirth | date:'MM/dd/yyyy' }}</label>
-        
+        <br>
         <span class="form-control"><strong>SSN:</strong></span>
         
         <label class="form-control" >{{Account.socialSec }}</label>
@@ -91,7 +92,7 @@
         <span class="form-control"><strong>Gender:</strong></span>
         
         <label class="form-control" >{{Account.gender }}</label>
-        
+        <br>
         <span class="form-control"><strong>Age Admission:</strong></span>
         
         <label class="form-control" >{{ age }}</label>

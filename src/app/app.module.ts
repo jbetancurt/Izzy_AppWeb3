@@ -33,7 +33,7 @@ import { BrandComponent } from './components/brand/brand.component';
 import { NoteEditComponent } from './components/note/note-edit/note-edit.component';
 import { MenuComponent } from './components/menu/menu.component';
 
-
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 import { ImportAccountsComponent } from './pages/import-accounts/import-accounts.component';
 import { MedifaxExportComponent } from './pages/medifax-export/medifax-export.component';
@@ -94,7 +94,8 @@ import { DragAndDropContentComponent } from './components/others/drag-and-drop-c
     ReactiveFormsModule,
     ClipboardModule,
     DragDropModule,
-    DragAndDropContentComponent
+    DragAndDropContentComponent,
+    MatAutocompleteModule
   ],
   providers: [
     DatePipe,

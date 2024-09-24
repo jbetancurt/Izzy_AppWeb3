@@ -5,6 +5,8 @@ import { Account, AccountService } from '../../account/';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { lastValueFrom } from 'rxjs';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-account-form',
@@ -28,7 +30,9 @@ export class AccountFormComponent implements OnInit {
     private activatedRoute: ActivatedRoute,  
     private _ProjectService : ProjectService,    
     private _AccountService : AccountService, 
-    private _ClientService : ClientService
+    private _ClientService : ClientService,
+    private accountService : AccountService,
+    private dialogRef: MatDialogRef<AccountFormComponent> // Inyecta MatDialogRef
   ) { }
 
   public LoadAccount(AcctID : string) : void{
@@ -166,14 +170,27 @@ export class AccountFormComponent implements OnInit {
     });
   }
 
-  EditAccount() : void{
-    //console.log("sub");
-    // ç
-    this.addAccount = this.formImportAccount.value;
-    //console.log(JSON.stringify(this.addAccount));
-    //console.log(this.addAccount.rpDateOfBirth);
-    //console.log(this.Account.dateOfBirth);
+  onSubmit(): void {
+    if (this.formImportAccount.valid) {
+      this.EditAccount();
+    } else {
+      console.error('Form is invalid');
+    }
   }
+
+  EditAccount() : void {
+  this.addAccount = this.formImportAccount.value;
+  this.accountService.Edit(this.addAccount).subscribe({
+    next: (response) => {
+      console.log('Account updated successfully', response);
+      this.dialogRef.close(); // Cierra el diálogo después de actualizar
+    },
+    error: (err) => {
+      console.error('Error updating account', err);
+      // No cerrar el diálogo si hay un error
+    }
+  });
+}
   
   LoadProjects(ClientCode : string) : void{
     this._ProjectService.List(ClientCode).subscribe({

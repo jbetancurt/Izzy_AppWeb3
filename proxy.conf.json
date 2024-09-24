@@ -1,6 +1,6 @@
 {
     "/api": {
-      "target": "https://izzywebappjpdev.azurewebsites.net",
+      "target": "https://localhost:44355",
       "secure": false
     }
   }

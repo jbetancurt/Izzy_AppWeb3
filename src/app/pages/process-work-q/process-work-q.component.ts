@@ -13,7 +13,13 @@ import { Status, StatusService } from 'src/app/components/status';
 import { LetterQService } from 'src/app/components/letter-q';
 import { Project, ProjectService } from 'src/app/components/project';
 import { AccountTiedComponent } from 'src/app/components/account/account-tied/account-tied.component';
-import {CdkDrag} from '@angular/cdk/drag-drop';
+import { CdkDrag } from '@angular/cdk/drag-drop';
+import { lastValueFrom } from 'rxjs';
+
+interface StatusCode {
+  code: string | undefined;
+  label: string | undefined;
+};
 
 @Component({
   selector: 'app-process-work-q',
@@ -22,21 +28,24 @@ import {CdkDrag} from '@angular/cdk/drag-drop';
 })
 export class ProcessWorkQComponent implements OnInit {
   tabLoadTimes: Date[] = [];
-  _Clients : Client[] = [];
-  allClients : Client[] = [];
-  _ClientsMaster : Client[] = [];
-  allClientsMaster : Client[] = [];
-  _Status : Status[] = [];
-  _Project : Project[] = [];
+  _Clients: Client[] = [];
+  allClients: Client[] = [];
+  _ClientsMaster: Client[] = [];
+  allClientsMaster: Client[] = [];
+  _Status: Status[] = [];
+  _StatusTodos: Status[] = [];
+  statusCodes: StatusCode[] = [];
+  originalStatusCode!: string;
+  _Project: Project[] = [];
   public OpenInfo = false;
   public modAcctID = "";
   public displayAccount = false;
   title = "Procces Work Q";
-  allAccounts : Account[] = [];
-  workedAccounts : number[] = [];
-  allAccountsFilter : Account[] = [];
+  allAccounts: Account[] = [];
+  workedAccounts: number[] = [];
+  allAccountsFilter: Account[] = [];
   dataSource!: MatTableDataSource<Account>;
-  displayedColumns: string[] = ['acctID', 'Name', 'clientCode', 'projectCode', 'clientRef1', 'fromDate', 'balanceDue', 'statusCode', 'nextReview', 'admitAge', 'gender', 'socialSec', 'dateOfBirth','address1', 'phone1','rpFullName', 'serviceCode','worked', 'Action'];
+  displayedColumns: string[] = ['acctID', 'Name', 'clientCode', 'projectCode', 'clientRef1', 'fromDate', 'balanceDue', 'statusCode', 'nextReview', 'admitAge', 'gender', 'socialSec', 'dateOfBirth', 'address1', 'phone1', 'rpFullName', 'serviceCode', 'worked', 'Action'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   page = 1;
@@ -59,44 +68,44 @@ export class ProcessWorkQComponent implements OnInit {
     balanceDue: new FormControl(0),
     projectCode: new FormControl([""]),
   });
-  
-  GetAgeFrom(FromDate? : Date, dob? :Date) : string{
+
+  GetAgeFrom(FromDate?: Date, dob?: Date): string {
     let retString = "";
-    if (FromDate && dob){
+    if (FromDate && dob) {
       let timeDiff = Math.abs(new Date(FromDate).getTime() - new Date(dob).getTime());
-      let age = Math.floor((timeDiff / (1000 * 3600 * 24))/365.25);
-      if (age && age > 0){
+      let age = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
+      if (age && age > 0) {
         retString = age.toString();
       }
     }
     return retString;
   }
 
-  returnColor(status : string) : string{
+  returnColor(status: string): string {
     return this.statusService.ColorByStatus(Number(status));
   }
-  
-  
-  loadClient(): void{
+
+
+  loadClient(): void {
     this._ClientService.List().subscribe({
-      next: (data : Client[]) => { 
+      next: (data: Client[]) => {
         let clientLst = data.filter(x => x.isMaster != true);
         this._Clients = clientLst;
         this.allClients = clientLst;
       },
-      error: (err : string) => { console.error(err); }
+      error: (err: string) => { console.error(err); }
     });
   }
 
-  
-  loadMasterClient(): void{
+
+  loadMasterClient(): void {
     this._ClientService.List().subscribe({
-      next: (data : Client[]) => { 
+      next: (data: Client[]) => {
         let clientLst = data.filter(x => x.isMaster == true);
         this._ClientsMaster = clientLst;
         this.allClientsMaster = clientLst;
       },
-      error: (err : string) => { console.error(err); }
+      error: (err: string) => { console.error(err); }
     });
   }
   setAcctID(vAcctID: string) {
@@ -109,13 +118,13 @@ export class ProcessWorkQComponent implements OnInit {
 
   constructor(
     public datepipe: DatePipe,
-    public dialog: MatDialog, 
-    private accountService : AccountService,
-    private _ClientService : ClientService,
-    private _StatusService : StatusService,
-    private _ProjectService : ProjectService,
-    private processWorkQService : ProcessWorkQService,
-    private statusService : StatusService
+    public dialog: MatDialog,
+    private accountService: AccountService,
+    private _ClientService: ClientService,
+    private _StatusService: StatusService,
+    private _ProjectService: ProjectService,
+    private processWorkQService: ProcessWorkQService,
+    private statusService: StatusService,
   ) { }
   getTimeLoaded(index: number) {
     if (!this.tabLoadTimes[index]) {
@@ -124,8 +133,25 @@ export class ProcessWorkQComponent implements OnInit {
 
     return this.tabLoadTimes[index];
   }
-  
-  public LoadStatus(): void{
+
+  //------------lo hace julian----------------//
+  public LoadStatus(): void {
+    this._Status = [];
+    this._StatusService.List().subscribe({
+      next: (data: Status[]) => {
+        this._StatusTodos = data;
+        console.log(this._StatusTodos);
+        this._Status = data.filter(X => Number(X.statusCode ?? "0") < 600);
+        this.statusCodes = this._StatusTodos.map(status => ({
+          code: status.statusCode,
+          label: status.description // Asegúrate de que `statusLabel` sea la propiedad correcta para la etiqueta
+        }));
+      },
+      error: (err: string) => { console.error(err); }
+    });
+  }
+  //------------------------------------------------//
+  /*public LoadStatus(): void{
     this._Status = []; 
     this._StatusService.List().subscribe({
       next: (data : Status[]) => { 
@@ -134,72 +160,102 @@ export class ProcessWorkQComponent implements OnInit {
       },
       error: (err : string) => { console.error(err); }
     });
-  }
-  
-  ChargeForm(id? : number){
-    if (id ?? 0 > 0){
+  }*/
+
+    public async onStatusChange(element: Account): Promise<void> {
+      //const newStatusCode = element.statusCode; // Captura el nuevo estado seleccionado
+      //const confirmation = window.confirm('¿Está seguro que desea editar el dato?');
+    
+      //if (confirmation) {
+        // Si el usuario confirma, llama al servicio para actualizar
+        try {
+          const updatedAccount = await lastValueFrom(this.accountService.EditStatus(element));
+          console.log('Account updated:', updatedAccount);
+          // Actualiza la tabla con el account actualizado
+          const index = this.allAccounts.findIndex(acc => acc.acctID === updatedAccount.acctID);
+          if (index !== -1) {
+            this.allAccounts[index] = updatedAccount;
+            this.dataSource.data = [...this.allAccounts];
+          }
+          //console.log('Nuevo estado:', element.statusCode);
+        } catch (error) {
+          console.error('Error updating account:', error);
+          // Si ocurre un error, revertimos el estado
+          //element.statusCode = this.originalStatusCode;
+          this.dataSource.data = [...this.allAccounts]; // Actualiza la tabla para reflejar el cambio revertido
+        }
+      //}
+    }
+    
+    public captureOriginalStatusCode(element: Account): void {
+      this.originalStatusCode = element.statusCode ?? '';
+    }
+
+
+
+  ChargeForm(id?: number) {
+    if (id ?? 0 > 0) {
       this.modAcctID = (id ?? 0).toString();
       this.dialog.open(
         this.callAPIDialog, {
-          width: '80%',
-        }
+        width: '80%',
+      }
       ).afterClosed()
-      .subscribe(() => this.refreshParent(id));;
+        .subscribe(() => this.refreshParent(id));;
     }
   }
 
-  ShowInfo(id? : number){
+  ShowInfo(id?: number) {
     //console.log(id);
-    if (id ?? 0 > 0){
+    if (id ?? 0 > 0) {
       //console.log(id);
       //this.accountService.outAcctID.emit((id ?? 0).toString());
-      if (this.workedAccounts.filter(x => x == id ?? 0).length < 1){
+      if (this.workedAccounts.filter(x => x == id ?? 0).length < 1) {
         this.workedAccounts.push(id ?? 0);
 
       }
       this.accountService.accountEmit.emit(this.allAccounts.filter(x => x.acctID == id)[0]);
     }
   }
-  showWorked(id? : number) : boolean{
+  showWorked(id?: number): boolean {
     return this.workedAccounts.filter(x => x == id ?? 0).length > 0;
   }
 
 
-  async ShowAccountTied(id : string){
+  async ShowAccountTied(id: string) {
     const dialogRef = this.dialog.open(AccountTiedComponent, {
       width: '80%',
     });
     dialogRef.componentInstance.inAcctID = id;
 
     dialogRef.afterClosed().subscribe(result => {
-      if (dialogRef.componentInstance.AcctIDSelected > 0){
+      if (dialogRef.componentInstance.AcctIDSelected > 0) {
 
-         this.LoadAccounts();
-      
+        this.LoadAccounts();
+
       }
-      
+
     });
   }
 
-  
-  
 
-  refreshParent(id? : number){
+
+
+  refreshParent(id?: number) {
     //console.log(id ?? 0)
   }
-  
-  public LoadProjects(mastercode : string): void{
-    this._Project = []; 
+
+  public LoadProjects(mastercode: string): void {
+    this._Project = [];
     this._ProjectService.List(mastercode).subscribe({
-      next: (data : Project[]) => { 
+      next: (data: Project[]) => {
         //console.log(data);
         this._Project = data;
       },
-      error: (err : string) => { console.error(err); }
+      error: (err: string) => { console.error(err); }
     });
   }
-  ChangeMasterClient(value : string) : void
-  {
+  ChangeMasterClient(value: string): void {
     this.LoadProjects(value);
   }
 
@@ -207,30 +263,30 @@ export class ProcessWorkQComponent implements OnInit {
     this.loadClient();
     this.loadMasterClient();
     this.LoadStatus();
-    if (this.dataSource != null){
+    if (this.dataSource != null) {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
 
     }
   }
-  
-  public async LoadAccounts() : Promise<void>{
+
+  public async LoadAccounts(): Promise<void> {
     this.workedAccounts = [];
-    let request :ProcessWorkQRequest = this.SearchForm.value as ProcessWorkQRequest;
+    let request: ProcessWorkQRequest = this.SearchForm.value as ProcessWorkQRequest;
     //console.log(request);
-    
+
     //this._loaderShow = true;
 
     var data = await this.processWorkQService.List(request);
-      //console.log(data);
-      
-      this.allAccounts = data;
-      this.allAccountsFilter = data;
-      this.dataSource = new MatTableDataSource(data);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      this.collectionSize = data.length;         
-    
+    //console.log(data);
+
+    this.allAccounts = data;
+    this.allAccountsFilter = data;
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.collectionSize = data.length;
+
   }
 
 }

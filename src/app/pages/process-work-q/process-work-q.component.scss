@@ -21,3 +21,13 @@
   /* Resto de estilos de la tabla */
 }
 
+
+
+/* Sticky header */
+.sticky-header {
+  position: sticky;
+  top: 0;
+  background-color: white; /* Asegúrate de que el fondo no sea transparente */
+  z-index: 10; /* Asegura que el encabezado esté encima del contenido */
+  border-bottom: 2px solid #ccc; /* Línea de separación para el encabezado */
+}
